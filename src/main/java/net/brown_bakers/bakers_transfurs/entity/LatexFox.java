@@ -4,11 +4,10 @@ import net.brown_bakers.bakers_transfurs.init.IEntityInit;
 import net.brown_bakers.bakers_transfurs.init.InitUtils;
 import net.ltxprogrammer.changed.ability.AbstractAbility;
 import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.latex.LatexType;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
-import net.ltxprogrammer.changed.init.ChangedAttributes;
-import net.ltxprogrammer.changed.init.ChangedEntities;
+import net.ltxprogrammer.changed.init.*;
 
-import net.ltxprogrammer.changed.init.ChangedSounds;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -16,6 +15,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.level.Level;
 
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -49,6 +49,7 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 	 * Instance methods:
 	 * (constructor) (EntityType < ? extends ChangedEntity > type, Level level) - standard constructor.
 	 * TransfurMode getTransfurMode() - returns transfur mode.
+	 * LatexType getLatexType() - returns latex type (WHITE, NONE, DARK)
 	 * void setAttributes( AttributeMap attributes ) - sets attributes
 	 *
 	 *.
@@ -57,15 +58,15 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 	 *
 	 ***********************************************************/
 	
-
 	
-	
-	//TODO: I should definitely read java and FML docs before doing registration in the exact opposite way to what's recommended.
+	//TODO: This will likely be moved into an initUtils function.
 	//The idea is to force-reference a method call inside a class.
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {
 		if (inited) {return;}
 		inited = true;
+		
+		//Init Entity
 		LATEX_FOX = InitUtils.getInitRObject(
 			   name,
 			   color1,
@@ -76,7 +77,18 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 			   LatexFox::checkEntitySpawnRules,
 			   ChangedEntity::createLatexAttributes
 		);
-		//TODO: Init abilities
+		
+		//Init abilities
+		var event2 = new TransfurVariant.UniversalAbilitiesEvent(abilities);
+		event2.addAbility(ChangedAbilities.SWITCH_TRANSFUR_MODE);
+		event2.addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY);
+		
+		//TODO Init scares
+		
+		scares = (aggressor, target) -> {
+			return AbstractVillager.class.isInstance(target) && aggressor.getType().is(ChangedTags.EntityTypes.LATEX);
+		};
+		
 		LATEX_FOX_VARIANT = TF_REGISTRY.register(name, LatexFox::getTFInitBuilder);
 	}
 	
@@ -98,7 +110,7 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 	
 	public static TransfurVariant<LatexFox> getTFInitBuilder()
 	{
-		return new TransfurVariant<>(
+		return new TransfurVariant<LatexFox> (
 			   getLatexFox(),
 			   breatheMode,
 			   canGlide,
@@ -122,6 +134,9 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 		return TransfurMode.REPLICATION;
 	}
 	
+	@Override	//redundant - Changed Entity defaults to none.
+	public LatexType getLatexType() { return ChangedLatexTypes.NONE.get(); }
+	
 	@Override
 	protected void setAttributes (AttributeMap attributes) {
 		super.setAttributes(attributes);
@@ -131,6 +146,7 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 		attributes.getInstance(ChangedAttributes.FALL_RESISTANCE.get()).setBaseValue(1.25);
 	}
 	
+	//public static final Supplier<LatexFox> entityTypeSupplier = new Supplier<LatexFox>() ;
 	public static final String name = "latex_fox";
 	public static final int color1 = 0x624f13;
 	public static final int color2 = 0xb4a165;
@@ -143,9 +159,8 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 	public static final MiningStrength miningStrength = MiningStrength.NORMAL;
 	//TODO: Extend functionality someday
 	public static final UseItemMode itemUseMode = UseItemMode.NORMAL;
-	public static final BiPredicate<LatexFox, PathfinderMob> scares = null;
+	private static BiPredicate<? extends ChangedEntity, ? extends PathfinderMob> scares;
 	public static final TransfurMode transfurMode = TransfurMode.REPLICATION;
-	//TODO: Break encapsulation.
 	public static final List<Function<EntityType<?>, ? extends AbstractAbility<?>>> abilities = new ArrayList<>();
 	public static final float cameraZOffset = 0.0f;
 	public static final ResourceLocation sound = ChangedSounds.TRANSFUR_BY_LATEX.getId();

@@ -14,13 +14,14 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.registries.RegistryObject;
 
 
 import static net.brown_bakers.bakers_transfurs.init.InitEntities.LATEX_FOX;
 
 
-public class LatexFox extends ChangedEntity implements IEntityInit
+public class LatexFox extends ChangedEntity implements IEntityInit, PowderSnowWalkable
 {
 	
 	public static EntityType.Builder<LatexFox> getEntityInitBuilder() {
@@ -33,8 +34,8 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 	public static RegistryObject<EntityType<LatexFox>> getEntityInitRObject() {
 		return InitUtils.getEntityInitRObject(
 			   "latex_fox",
-			   0x624f13,
-			   0xb4a165,
+			   0xE37107,
+			   0x9E4F05,
 			   LatexFox.getEntityInitBuilder(),
 			   ChangedEntities::overworldOnly,
 			   SpawnPlacements.Type.ON_GROUND,
@@ -51,13 +52,14 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 			   .glide(false)
 			   .extraJumps(0)
 			   .canClimb(false)
-			   .visionType(VisionType.NORMAL)
+			   .visionType(VisionType.NIGHT_VISION)
 			   .miningStrength(MiningStrength.NORMAL)
 			   .itemUseMode(UseItemMode.NORMAL)
 			   //.scares(AbstractVillager.class)
 			   .transfurMode(TransfurMode.REPLICATION)
 			   .addAbility(ChangedAbilities.SWITCH_TRANSFUR_MODE)
 			   .addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY)
+			   .addAbility(ChangedAbilities.TOGGLE_NIGHT_VISION)
 			   .cameraZOffset(0.0f)
 			   .sound(ChangedSounds.TRANSFUR_BY_LATEX.getId())
 			   .build();
@@ -76,14 +78,20 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 	@Override
 	protected void setAttributes (AttributeMap attributes) {
 		super.setAttributes(attributes);
-		attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.05);
+		attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.1);
+		attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(0.93);
 		attributes.getInstance(ChangedAttributes.SNEAK_SPEED.get()).setBaseValue(1.5D);
+		attributes.getInstance(ChangedAttributes.SPRINT_SPEED.get()).setBaseValue(1.25);
 		attributes.getInstance(ChangedAttributes.JUMP_STRENGTH.get()).setBaseValue(1.5);
-		attributes.getInstance(ChangedAttributes.FALL_RESISTANCE.get()).setBaseValue(1.25);
+		attributes.getInstance(ChangedAttributes.FALL_RESISTANCE.get()).setBaseValue(1.5);
 	}
 	
 	@Override
 	public Color3 getTransfurColor(TransfurCause cause) {
-		return Color3.fromInt(0x624f13);
+		return Color3.fromInt(0xE37107);
 	}
+	
+	@Override
+	public int getTicksRequiredToFreeze() { return 540; }
+	
 }

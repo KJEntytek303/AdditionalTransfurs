@@ -27,13 +27,16 @@ public class LatexFoxModel extends AdvancedHumanoidModel<LatexFox> {
 	}
 	
 	@Override
-	public ModelPart getArm(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftArm : this.rightArm; }
+	public ModelPart getArm(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftArm : this.RightArm; }
 	
 	@Override
-	public ModelPart getLeg(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.rightLeg; }
+	public ModelPart getLeg(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg; }
 	
 	@Override
 	public ModelPart getTorso() { return this.Torso; }
+	
+	@Override
+	public ModelPart getHead() { return this.Head; }
 	
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(BakersTransfurs.modResource("entity/latex_fox"), "main");

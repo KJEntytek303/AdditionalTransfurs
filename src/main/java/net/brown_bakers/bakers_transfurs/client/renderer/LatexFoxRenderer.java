@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class LatexFoxRenderer extends AdvancedHumanoidRenderer<LatexFox, LatexFoxModel> {
 	
-	public static final ResourceLocation DEFAULT_SKIN_LOCATION = BakersTransfurs.modResource("assets/textures/latex_fox.png");
+	public static final ResourceLocation DEFAULT_SKIN_LOCATION = BakersTransfurs.modResource("textures/entity/latex_fox.png");
 	
 	public LatexFoxRenderer(EntityRendererProvider.Context context) {
 		super(context, new LatexFoxModel(context.bakeLayer(LatexFoxModel.LAYER_LOCATION)), ArmorLatexMaleWolfModel.MODEL_SET, 0.5f);

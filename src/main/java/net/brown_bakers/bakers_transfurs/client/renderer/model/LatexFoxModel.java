@@ -36,7 +36,7 @@ public class LatexFoxModel extends AdvancedHumanoidModel<LatexFox> {
 	public ModelPart getTorso() { return this.Torso; }
 	
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(BakersTransfurs.modResource("latex_fox"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(BakersTransfurs.modResource("entity/latex_fox"), "main");
 	private final ModelPart RightLeg;
 	private final ModelPart RightLowerLeg;
 	private final ModelPart RightFoot;

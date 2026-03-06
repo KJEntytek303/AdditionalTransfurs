@@ -14,8 +14,6 @@ import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -48,7 +46,6 @@ public class InitUtils
 	
 	@Deprecated(forRemoval = true)
 	public static <T extends ChangedEntity> void registerHumanoid(EntityRenderersEvent.RegisterRenderers event, EntityType<? extends T> entityType, EntityRendererProvider<T> entityRendererProvider) {
-		
 		copyPlayerLayers.add(entityType);
 		event.registerEntityRenderer(entityType, entityRendererProvider);
 		

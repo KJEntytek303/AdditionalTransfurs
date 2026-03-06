@@ -7,8 +7,6 @@ import net.ltxprogrammer.changed.init.ChangedRegistry;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Map;
-
 public class InitTransfurs
 {
 	public static DeferredRegister<TransfurVariant<?>> TF_REGISTRY = ChangedRegistry.TRANSFUR_VARIANT.createDeferred(BakersTransfurs.MODID);

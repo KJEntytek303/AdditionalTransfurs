@@ -4,6 +4,8 @@ import com.mojang.datafixers.util.Pair;
 
 import net.brown_bakers.bakers_transfurs.BakersTransfurs;
 
+import net.brown_bakers.bakers_transfurs.entity.LatexCheetahFemale;
+import net.brown_bakers.bakers_transfurs.entity.LatexCheetahMale;
 import net.brown_bakers.bakers_transfurs.entity.LatexFox;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.init.ChangedEntities;
@@ -39,6 +41,8 @@ public class InitEntities
 	public static final Map<Supplier<? extends EntityType<?>>, Predicate<Level>> DIMENSION_RESTRICTIONS = new HashMap<>();
 	
 	public static final RegistryObject<EntityType<LatexFox>> LATEX_FOX = LatexFox.getEntityInitRObject();
+	public static final RegistryObject<EntityType<LatexCheetahMale>> LATEX_CHEETAH_MALE = LatexCheetahMale.getEntityInitRObject();
+	public static final RegistryObject<EntityType<LatexCheetahMale>> LATEX_CHEETAH_FEMALE = LatexCheetahFemale.getEntityInitRObject();
 	
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {

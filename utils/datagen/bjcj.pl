@@ -22,24 +22,74 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.HumanoidArm;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.List;
 ';
 
-my $EXTEND = "Model extends AdvancedHumanoidModel</*PERL_CAPITALIZED_NAME*/>";
+my $EXTEND = "Model extends AdvancedHumanoidModel</*PERL_CAPITALIZED_NAME*/> /*PERL_IMPLEMENTS*/";
 my $GENERIC_OVERRIDES = '	@Override
 	public HumanoidAnimator</*PERL_CAPITALIZED_NAME*/, ?> getAnimator(/*PERL_CAPITALIZED_NAME*/ entity) { return animator; }
-	
-	/*PERL_LEG_OVERRIDES*/
-	
+
 	@Override
 	public ModelPart getTorso() { return this.Torso; }
 	
 	@Override
 	public ModelPart getHead() { return this.Head; }
+
+	/*PERL_LEG_OVERRIDES*/
 	
 ';
 
-my $LEGLESS_LEG_OVERRIDES
+my $LEGLESS_IMPLEMENTS = "implements LeglessModel ";
+
+my $CENTAUR_IMPLEMENTS = "implements LowerTorsoedModel ";
+
+my $LEGLESS_LEG_OVERRIDES ='
+
+	public ModelPart getLeg(HumanoidArm p_102852_) { return null; }
+
+	@Override
+	public ModelPart getAbdomen() { return Abdomen; }
+
+	@Override
+	public HelperModel getTransfurHelperModel(Limb limb) {
+		if (limb == Limb.ABDOMEN) { return TransfurHelper.getLegless(); }
+
+	return super.getTransfurHelperModel(limb);
+	}
+
+	@Override
+	public boolean shouldModelSit(LatexSnake entity) { return super.shouldModelSit(entity) || LeglessModel.shouldLeglessSit(entity); }
+';
+
+my $CENTAUR_LEG_OVERRIDES = '
+
+	public ModelPart getLeg(HumanoidArm p_102852_) {
+		return null;
+	}
+
+	@Override
+	public HelperModel getTransfurHelperModel(Limb limb) {
+		if (limb == Limb.LOWER_TORSO)
+			return TransfurHelper.getTaurTorso();
+		else if (limb == Limb.TORSO)
+			return TransfurHelper.getFeminineTorsoAlt();
+		return super.getTransfurHelperModel(limb);
+	}
+
+	@Override
+	public boolean shouldPartTransfur(ModelPart part) {
+		return super.shouldPartTransfur(part) && part != this.Saddle;
+	}
+
+	@Override
+	public ModelPart getLowerTorso() {
+		return LowerTorso;
+	}
+
+';
 
 my $MASKED = '	public boolean isPartNotMask(ModelPart part) { return Mask.getAllParts().noneMatch(part::equals); }
 	';
@@ -50,19 +100,7 @@ my $BIPED_LEG_OVERRIDES = '
 	
 	@Override
 	public ModelPart getLeg(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg; }
-'
-
-my $LEGLESS_OVERRIDES = '
-	@Override
-	public ModelPart getArm(HumanoidArm humanoidArm) { return null; }
-	
-	@Override
-	public ModelPart getLeg(HumanoidArm humanoidArm) { return null; }
-
-	@Override
-	public boolean shouldModelSit(LatexMantaRayFemale entity) {
-		return super.shouldModelSit(entity) || LeglessModel.shouldLeglessSit(entity);
-	}'
+';
 
 my $DECLARATIONS = "	private final HumanoidAnimator</*PERL_CAPITALIZED_NAME*/, /*PERL_CAPITALIZED_NAME*/Model> animator;
 
@@ -75,12 +113,28 @@ my $ANIMATOR_INIT = "		animator = HumanoidAnimator.of(this).hipOffset(-1.5f)
 					 Head,
 					 /*PERL_ANIMATED_EARS*/
 					 Torso, LeftArm, RightArm,
-					 Tail, List.of(/*PERL_TAIL_PARTS_ARRAY*/),
+					 /*PERL_ABDOMEN_STUFF*/
+					 /*PERL_NORMAL_TAIL_STUFF*/ 
 					 /*PERL_LEG_STUFF*/
 					 /*PERL_WINGED_STUFF*/
 					 ));
 
 ";
+
+my $ears = "LeftEar, RightEar,"
+
+my $normal_tail_stuff = "Tail, List.of(/*PERL_TAIL_PARTS_ARRAY*/),"
+
+my $legless_abdomen = "Abdomen, LowerAbdomen,"
+my $centaur_legs = '
+                LowerTorso, FrontLeftLeg, leftLowerLeg, LeftFoot, FrontRightLeg, rightLowerLeg, RightFoot,
+                BackLeftLeg, leftLowerLeg2, leftFoot2, LeftPad2, BackRightLeg, rightLowerLeg2, rightFoot2, RightPad2))
+                .addAnimator(new WolfTailInitAnimator<>(Tail, List.of(/*PERL_TAIL_PARTS_ARRAY*/)))
+                .forwardOffset(-7.0f).hipOffset(-1.5f).legLength(13.5f).torsoLength(11.05f);
+'
+
+my $dragon_wings =
+my $bird_wings =
 
 my $input_file_name = '';
 my $name_capitalized ;
@@ -102,11 +156,18 @@ $name_lowercase =~ s/([A-Z])/_$1/g;
 $name_lowercase =~ tr/[A-Z]/[a-z]/;
 $name_lowercase =~ s/^_//;
 
+my $leg_type = "biped";
+
+if ( $preset eq "taur" ) {
+	$leg_type = "centaur";
+}
+
+if ( $preset eq "snake" || $preset eq "leglessShark" || $preset eq "leglessMantaRay" ) {
+	$leg_type = "legless";
+}
+
 $output_file_name = $name_capitalized . 'Model.java';
 
-#get file name from cmd parameter
-#open file and do shit
-#export it to a desired file
 
 open(my $IFILE, '<', $input_file_name) or die "Couldn't open file '$input_file_name': $!";
 my @mapped_file = <$IFILE>;
@@ -123,6 +184,8 @@ for( my $i = 1; $i<scalar(@mapped_file); $i++) {# {{{
 
 	if ( $doneExtend == 0 && $mapped_file[$i] =~ /public class/ ) {
 		$mapped_file[$i] =~ s/<T extends Entity> extends EntityModel<T>/$EXTEND/;
+		splice(@mapped_file, $i-1, 0, '@OnlyIn(Dist.CLIENT)');
+
 		$i++;
 		splice(@mapped_file, $i, 0, $GENERIC_OVERRIDES);
 		$doneExtend = 1;
@@ -173,7 +236,59 @@ foreach (@mapped_file) {
 	$_ =~ s/\/\*PERL_CAPITALIZED_NAME\*\//$name_capitalized/g;
 	$_ =~ s/\/\*PERL_NAME_LOWERCASE\*\//$name_lowercase/g;
 	$_ =~ s/\/\*PERL_ANIMATOR_PRESET\*\//$preset/;
+	
+	if ( $leg_type eq "centaur" ) {
+		$_ =~ s/\/\*PERL_IMPLEMENTS\*\//$CENTAUR_IMPLEMENTS/;
+		$_ =~ s/\/\*PERL_LEG_OVERRIDES\*\//$CENTAUR_LEG_OVERRIDES/;
+
+		$_ =~ s/\/\*PERL_ABDOMEN_STUFF\*\//$centaur_legs/
+
+		$_ =~ s/\h\)\);$//;
+
+	}
+
+	if ( $leg_type eq "legless" ) {
+		$_ =~ s/\/\*PERL_IMPLEMENTS\*\//$LEGLESS_IMPLEMENTS/;
+		$_ =~ s/\/\*PERL_LEG_OVERRIDES\*\//$LEGLESS_LEG_OVERRIDES/;
+		$_ s/\/\*PERL_ABDOMEN_STUFF\8\//$legless_abdomen/
+
+	}
+
+	if ( $leg_type eq "biped" ) {
+		$_ =~ s/\/\*PERL_IMPLEMENTS\*\///;
+		$_ =~ s/\/\*PERL_LEG_OVERRIDES\*\//$BIPED_LEG_OVERRIDES/;
+
+	}
+
+
+	if ( $_ =~ /\/\*PERL_ANIMATED_EARS\*\// ) {
+		if ( $preset eq "wolf" || $preset eq "cat" || $preset eq "Deer" ) {
+			$_ =~ s/\/\*PERL_ANIMATED_EARS\*\//$ears/;
+		}
+		$_ =~ s/\/\*PERL_ANIMATED_EARS\*\///;
+	}
+
+	if ( $_ =~ /\/\*PERL_LEG_STUFF\*\// {
+		if ( $leg_type eq "biped" ) {
+			
+		}
+	}
+
+	if ( $_ =~ /\/\*PERL_ABDOMEN_STUFF\8\// {
+		if ( $leg_type eq "legless" ) {
+		}
+
+		if ( $leg_type eq "centaur" ) {
+		}
+
+	}
+
+	if ( $_ =~ /\/\*PERL_WINGED_STUFF\*\// ) {
+
+	}
+
 	$_ =~ s/\/\*PERL_TAIL_PARTS_ARRAY\*\//$tail_parts_serialized/;
+	
 }
 
 print @mapped_file;
@@ -186,6 +301,7 @@ sub getlopt {# {{{
 			if ( $_ eq "-f" ) { $eval = 1; next; }
 			if ( $_ eq "-p" ) { $eval = 2; next; }
 			if ( $_ eq "-M" ) { $is_masked = 1; next; }
+			if ( $_ eq "-h" ) { printHelp(); exit(0); }
 
 			next;
 		}
@@ -223,9 +339,11 @@ sub getlopt {# {{{
 		die "Missing argument for an option";
 	}
        	if ( $input_file_name eq '' || $preset eq '' ) { die 'Input file or preset empty. Aborted.';}
+
+
 }# }}}
 
-sub serializeArray {
+sub serializeArray {# {{{
 	return "" if scalar(@_) == 0;
 
 	my $ret = $_[0];
@@ -233,4 +351,33 @@ sub serializeArray {
 		$ret = $ret . ", " . $_[$i];
 	}
 	return($ret);
-}
+}# }}}
+
+sub printHelp { #{{{
+	print "BJCJ model converter by KJEntytek303
+
+Used to convert blockbench exported .java model to the format changed mc accepts.
+This software isn't meant to be called directly by the user, rather from a script.
+By default, the converted file is printed to STDOUT.
+
+Usage:
+./bjcj.pl -f [FILE] -p [PRESET] [OPTIONS]
+
+FILE specifies blockbench .java model to convert. Removes '/' from path names automatically before conversion.
+PRESET specifies presets to use. Valid presets are:
+	wolf
+	cat
+	deer
+	orca
+	shark
+	dragon
+	taur
+	snake
+	wingedDragon
+	leglessShark
+	leglessMantaRay
+
+OPTIONS:
+	-h	-Print this screen
+"
+}#}}}

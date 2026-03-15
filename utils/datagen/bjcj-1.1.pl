@@ -29,7 +29,11 @@ my $EXTEND = "Model extends AdvancedHumanoidModel</*PERL_CAPITALIZED_NAME*/>";
 my $GENERIC_OVERRIDES = '	@Override
 	public HumanoidAnimator</*PERL_CAPITALIZED_NAME*/, ?> getAnimator(/*PERL_CAPITALIZED_NAME*/ entity) { return animator; }
 	
-	/*PERL_LEG_OVERRIDES*/
+	@Override
+	public ModelPart getArm(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftArm : this.RightArm; }
+	
+	@Override
+	public ModelPart getLeg(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg; }
 	
 	@Override
 	public ModelPart getTorso() { return this.Torso; }
@@ -39,31 +43,6 @@ my $GENERIC_OVERRIDES = '	@Override
 	
 ';
 
-my $LEGLESS_LEG_OVERRIDES
-
-my $MASKED = '	public boolean isPartNotMask(ModelPart part) { return Mask.getAllParts().noneMatch(part::equals); }
-	';
-
-my $BIPED_LEG_OVERRIDES = '
-	@Override
-	public ModelPart getArm(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftArm : this.RightArm; }
-	
-	@Override
-	public ModelPart getLeg(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg; }
-'
-
-my $LEGLESS_OVERRIDES = '
-	@Override
-	public ModelPart getArm(HumanoidArm humanoidArm) { return null; }
-	
-	@Override
-	public ModelPart getLeg(HumanoidArm humanoidArm) { return null; }
-
-	@Override
-	public boolean shouldModelSit(LatexMantaRayFemale entity) {
-		return super.shouldModelSit(entity) || LeglessModel.shouldLeglessSit(entity);
-	}'
-
 my $DECLARATIONS = "	private final HumanoidAnimator</*PERL_CAPITALIZED_NAME*/, /*PERL_CAPITALIZED_NAME*/Model> animator;
 
 //	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AdditionalTransfurs.modResource(\"entity//*PERL_NAME_LOWERCASE*/\"), \"main\");
@@ -71,14 +50,11 @@ my $DECLARATIONS = "	private final HumanoidAnimator</*PERL_CAPITALIZED_NAME*/, /
 ";
 
 my $ANIMATOR_INIT = "		animator = HumanoidAnimator.of(this).hipOffset(-1.5f)
-			   .addPreset(AnimatorPresets./*PERL_ANIMATOR_PRESET*/(
-					 Head,
-					 /*PERL_ANIMATED_EARS*/
+			   .addPreset(AnimatorPresets./*PERL_ANIMATOR_PRESET*/Like(
+					 Head, Head.getChild(\"LeftEar\"), Head.getChild(\"RightEar\"),
 					 Torso, LeftArm, RightArm,
 					 Tail, List.of(/*PERL_TAIL_PARTS_ARRAY*/),
-					 /*PERL_LEG_STUFF*/
-					 /*PERL_WINGED_STUFF*/
-					 ));
+					 LeftLeg, LeftLowerLeg, LeftFoot, LeftFoot.getChild(\"LeftPad\"), RightLeg, RightLowerLeg, RightFoot, RightFoot.getChild(\"RightPad\")));
 
 ";
 
@@ -88,8 +64,6 @@ my $name_lowercase;
 my $output_file_name = '';
 my $preset = '';
 my @tail_parts = ();
-my $is_masked = 0;
-my $leg_type = "";
 
 getlopt(@ARGV);
 
@@ -130,7 +104,7 @@ for( my $i = 1; $i<scalar(@mapped_file); $i++) {# {{{
 	}
 
 	$mapped_file[$i] =~ s/new ResourceLocation\("modid", "[a-z]+"\),/AdditionalTransfurs.modResource\("entity\/$name_lowercase"\),/;
-	if ( $inModelParts == 0 && $mapped_file[$i] =~ /private final ModelPart;/ ) {
+	if ( $inModelParts == 0 && $mapped_file[$i] =~ /private final ModelPart (.+);/ ) {
 		$inModelParts = 1;
 		next;
 	}
@@ -183,10 +157,8 @@ sub getlopt {# {{{
 	my $eval = 0;
 	foreach(@_) {
 		if ( $eval == 0 ) {
-			if ( $_ eq "-f" ) { $eval = 1; next; }
-			if ( $_ eq "-p" ) { $eval = 2; next; }
-			if ( $_ eq "-M" ) { $is_masked = 1; next; }
-
+			if ( $_ eq "-f" ) { $eval = 1; }
+			if ( $_ eq "-p" ) { $eval = 2; }
 			next;
 		}
 
@@ -199,30 +171,12 @@ sub getlopt {# {{{
 		}
 
 		if ( $eval == 2 ) {
-			if (  $_ eq "wolf" || $_ eq "cat" || $_ eq "deer" ||
-				$_ eq "human" || $_ eq "bird" || 
-				$_ eq "orca" ||  $_ eq "shark" || $_ eq "dragon" ||
-			        $_ eq "taur" ||
-				$_ eq "snake" ||
-				$_ eq "wingedDragon" ) {
-				$preset = $_ . "Like";
-				$eval = 0;
-				next;
-			}
-
-			if ( $_ eq "leglessShark" || $_ eq "leglessMantaRay" ) {
-				$preset = $_;
-				$eval = 0;
-				next;
-			}
-
-			die "Unknown preset: $_\nAborted.";
+			$preset = $_;
+			$eval = 0;
+			next;
 		}
 	}
-	if( $eval != 0 ) {
-		die "Missing argument for an option";
-	}
-       	if ( $input_file_name eq '' || $preset eq '' ) { die 'Input file or preset empty. Aborted.';}
+	if( $eval != 0 || $input_file_name eq '' || $preset eq '' ) { die 'Insufficient arguments. Aborted.';}
 }# }}}
 
 sub serializeArray {

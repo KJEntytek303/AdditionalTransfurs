@@ -1,5 +1,6 @@
 package net.kjentytek303.additional_transfurs.init;
 
+import net.kjentytek303.additional_transfurs.client.renderer.AvaliRenderer;
 import net.kjentytek303.additional_transfurs.client.renderer.LatexFoxRenderer;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,5 +17,6 @@ public class InitRenderers {
 	@SubscribeEvent
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		registerHumanoid(event, InitEntities.LATEX_FOX.get(), LatexFoxRenderer::new );
+		registerHumanoid(event, InitEntities.AVALI.get(), AvaliRenderer::new);
 	}
 }

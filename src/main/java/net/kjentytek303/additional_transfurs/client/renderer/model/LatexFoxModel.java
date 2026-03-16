@@ -17,35 +17,40 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.HumanoidArm;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.List;
 // Made with Blockbench 5.0.5
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-
-public class LatexFoxModel extends AdvancedHumanoidModel<LatexFox> {
+@OnlyIn(Dist.CLIENT)
+public class LatexFoxModel extends AdvancedHumanoidModel<LatexFox>  {
 	@Override
 	public HumanoidAnimator<LatexFox, ?> getAnimator(LatexFox entity) { return animator; }
+
+	@Override
+	public ModelPart getTorso() { return this.Torso; }
+	
+	@Override
+	public ModelPart getHead() { return this.Head; }
+
 	
 	@Override
 	public ModelPart getArm(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftArm : this.RightArm; }
 	
 	@Override
 	public ModelPart getLeg(HumanoidArm humanoidArm) { return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg; }
+
 	
-	@Override
-	public ModelPart getTorso() { return this.Torso; }
-	
-	@Override
-	public ModelPart getHead() { return this.Head; }
-	
+	private final HumanoidAnimator<LatexFox, LatexFoxModel> animator;
+
+//	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AdditionalTransfurs.modResource("entity/latex_fox"), "main");
+
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AdditionalTransfurs.modResource("entity/latex_fox"), "main");
 	private final ModelPart RightLeg;
-	private final HumanoidAnimator<LatexFox, LatexFoxModel> animator;
-
-//	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(BakersTransfurs.modResource("entity/latex_fox"), "main");
-
 	private final ModelPart RightLowerLeg;
 	private final ModelPart RightFoot;
 	private final ModelPart RightPad;
@@ -92,10 +97,14 @@ public class LatexFoxModel extends AdvancedHumanoidModel<LatexFox> {
 		this.LeftArm = root.getChild("LeftArm");
 		animator = HumanoidAnimator.of(this).hipOffset(-1.5f)
 			   .addPreset(AnimatorPresets.wolfLike(
-					 Head, Head.getChild("LeftEar"), Head.getChild("RightEar"),
+					 Head,
+					 LeftEar, RightEar,
 					 Torso, LeftArm, RightArm,
-					 Tail, List.of(this.TailPrimary, TailSecondary, TailTertiary),
-					 LeftLeg, LeftLowerLeg, LeftFoot, LeftFoot.getChild("LeftPad"), RightLeg, RightLowerLeg, RightFoot, RightFoot.getChild("RightPad")));
+					 /*PERL_ABDOMEN_STUFF*/
+					 Tail, List.of(TailPrimary, TailSecondary, TailTertiary), 
+					 LeftLeg, LeftLowerLeg, LeftFoot, LeftPad, RightLeg, RightLowerLeg, RightFoot, RightPad
+					 /*PERL_WINGED_STUFF*/
+					 ))/*PERL_ADDITIONAL_ANIMATORS*/;
 
 	}
 

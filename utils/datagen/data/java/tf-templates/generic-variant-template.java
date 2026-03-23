@@ -8,17 +8,29 @@ import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.*;
 
 import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.registries.RegistryObject;
 
 
-import net.kjentytek303.additional_transfurs.init.InitEntities;
+import static net.kjentytek303.additional_transfurs.init.InitEntities.PERL_CAPITALIZED_ENTITY_NAME;
+
+import org.jetbrains.annotations.Nullable;
 
 
 public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
@@ -26,9 +38,7 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 
 	/*PERL_ABSTRACT_DELETE_BEGIN*/
 	public static EntityType.Builder<PERL_ENTITY_NAME> getEntityInitBuilder() {
-		return EntityType.Builder
-			PERL_ENTITY_BUILDER
-			;
+		return PERL_ENTITY_BUILDER ;
 	}
 	
 	public static RegistryObject<EntityType<PERL_ENTITY_NAME>> getEntityInitRObject() {
@@ -55,9 +65,9 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 			   /*PERL_DEFAULT_VISION_TYPE*/
 			   /*PERL_MINING_STRENGHT*/
 			   /*PERL_ITEM_USE_MODE*/
-			   /*PERL_SCARES*/
+/*PERL_SCARES*/
 			   /*PERL_DEFAULT_TRANSFUR_MODE*/
-			   /*PERL_ABILITIES*/
+/*PERL_ABILITIES*/
 			   /*PERL_CAMERA_Z_OFFSET*/
 			   /*PERL_DEFAULT_TRANSFUR_SOUND*/
 			   .build();
@@ -76,7 +86,7 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 	@Override
 	protected void setAttributes (AttributeMap attributes) {
 		super.setAttributes(attributes);
-		/*PERL_ATTRIBUTES*/
+/*PERL_ATTRIBUTES*/
 	}
 	
 	/*PERL_TRANSFUR_COLOR*/
@@ -86,6 +96,10 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 	/*PERL_FLYING_SPEED*/
 
 	/*PERL_CLIMBING_OVERRIDE*/
+
+	/*PERL_LEGLESS_OVERRIDE*/
+
+	/*PERL_CENTAUR_OVERRIDE*/
 
 
 }

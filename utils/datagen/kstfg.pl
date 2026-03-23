@@ -172,7 +172,7 @@ $fly = ( $fly eq "" ) ? "" : ( $fly eq "NONE" ) ? ".glide(false)" : ".glide(true
 $jumps = ($jumps eq '' ) ? "" : ".extraJumps($jumps)";
 $vision = ( $vision eq "" ) ? "" : ".visionType(VisionType.$vision)";
 $climb = ( $climb eq "false" ) ? "" : ".climb()";
-my $climb_override = ( $climb eq "false" ) ? "" : "\tprivate static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(" . $name . ".class, EntityDataSerializers.BYTE);
+my $climb_override = ( $climb eq "" ) ? "" : "\tprivate static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(" . $name . ".class, EntityDataSerializers.BYTE);
 protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(DATA_FLAGS_ID, (byte) 0 );
@@ -259,7 +259,7 @@ foreach ( @attributes ) {
 	my $attribute = $1;
 	my $value = $2;
 
-	$_ = "\t\tattributes.getInstance(" . $attribute . ").setBaseValue(" . $value . ");";
+	$_ = "\t\tattributes.getInstance(" . $attribute . ").setBaseValue(" . $value . ");\n";
 }
 
 foreach ( @implements ) {

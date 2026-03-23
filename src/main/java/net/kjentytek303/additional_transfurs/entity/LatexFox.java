@@ -8,27 +8,37 @@ import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.*;
 
 import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.registries.RegistryObject;
 
 
 import static net.kjentytek303.additional_transfurs.init.InitEntities.LATEX_FOX;
 
+import org.jetbrains.annotations.Nullable;
 
-public class LatexFox extends ChangedEntity implements IEntityInit, PowderSnowWalkable
+
+public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 {
-	
+
+	/*PERL_ABSTRACT_DELETE_BEGIN*/
 	public static EntityType.Builder<LatexFox> getEntityInitBuilder() {
-		return EntityType.Builder
-			   .of(LatexFox::new, MobCategory.MONSTER)
-			   .clientTrackingRange(10)
-			   .sized(0.7F, 1.93F);
+		return EntityType.Builder.of(LatexFox::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F) ;
 	}
 	
 	public static RegistryObject<EntityType<LatexFox>> getEntityInitRObject() {
@@ -37,8 +47,8 @@ public class LatexFox extends ChangedEntity implements IEntityInit, PowderSnowWa
 			   0xE37107,
 			   0x9E4F05,
 			   LatexFox.getEntityInitBuilder(),
-			   ChangedEntities::overworldOnly,
-			   SpawnPlacements.Type.ON_GROUND,
+			   ChangedEntities::overworldOnly, //TODO TEMPL: Make this extensible 
+			   SpawnPlacements.Type.ON_GROUND, //TODO TEMPL: Make this extensible
 			   LatexFox::checkEntitySpawnRules,
 			   ChangedEntity::createLatexAttributes
 		);
@@ -48,22 +58,24 @@ public class LatexFox extends ChangedEntity implements IEntityInit, PowderSnowWa
 	{
 		return TransfurVariant.Builder
 			   .of(LATEX_FOX)
-			   .breatheMode(TransfurVariant.BreatheMode.NORMAL)
-			   .glide(false)
-			   .extraJumps(0)
-			   .canClimb(false)
+			   
+			   
+			   
+			   
 			   .visionType(VisionType.NIGHT_VISION)
-			   .miningStrength(MiningStrength.NORMAL)
-			   .itemUseMode(UseItemMode.NORMAL)
-			   //.scares(AbstractVillager.class)
+			   
+			   .itemUseMode( UseItemMode.NORMAL )
+
 			   .transfurMode(TransfurMode.REPLICATION)
 			   .addAbility(ChangedAbilities.SWITCH_TRANSFUR_MODE)
-			   .addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY)
-			   .addAbility(ChangedAbilities.TOGGLE_NIGHT_VISION)
-			   .cameraZOffset(0.0f)
-			   .sound(ChangedSounds.TRANSFUR_BY_LATEX.getId())
+ 			   .addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY)
+ 			   .addAbility(ChangedAbilities.TOGGLE_NIGHT_VISION)
+
+			   
+			   
 			   .build();
 	}
+	/*PERL_ABSTRACT_DELETE_END*/
 	
 	public LatexFox(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
 	
@@ -72,26 +84,32 @@ public class LatexFox extends ChangedEntity implements IEntityInit, PowderSnowWa
 		return TransfurMode.REPLICATION;
 	}
 	
-	@Override	//redundant - Changed Entity defaults to none.
-	public LatexType getLatexType() { return ChangedLatexTypes.NONE.get(); }
+	
 	
 	@Override
 	protected void setAttributes (AttributeMap attributes) {
 		super.setAttributes(attributes);
 		attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.1);
-		attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(0.93);
-		attributes.getInstance(ChangedAttributes.SNEAK_SPEED.get()).setBaseValue(1.5D);
-		attributes.getInstance(ChangedAttributes.SPRINT_SPEED.get()).setBaseValue(1.25);
-		attributes.getInstance(ChangedAttributes.JUMP_STRENGTH.get()).setBaseValue(1.5);
-		attributes.getInstance(ChangedAttributes.FALL_RESISTANCE.get()).setBaseValue(1.5);
+ 		attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(0.93);
+ 		attributes.getInstance(ChangedAttributes.SNEAK_SPEED.get()).setBaseValue(1.5);
+ 		attributes.getInstance(ChangedAttributes.SPRINT_SPEED.get()).setBaseValue(1.25);
+ 		attributes.getInstance(ChangedAttributes.JUMP_STRENGTH.get()).setBaseValue(1.5);
+ 		attributes.getInstance(ChangedAttributes.FALL_RESISTANCE.get()).setBaseValue(1.5);
+
 	}
 	
-	@Override
-	public Color3 getTransfurColor(TransfurCause cause) {
-		return Color3.fromInt(0xE37107);
-	}
+	public Color3 getTransfurColor(TransfurCause cause) { return Color3.fromInt(0xE37107); }
 	
 	@Override
 	public int getTicksRequiredToFreeze() { return 540; }
+
+	/*PERL_FLYING_SPEED*/
+
 	
+
+	
+
+	
+
+
 }

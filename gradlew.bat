@@ -14,6 +14,18 @@
 @rem limitations under the License.
 @rem
 
+echo WARNING: WINDOWS COMPILATION IS UNSUPPORTED. SOME PARTS MIGHT BREAK DUE TO THE USAGE OF EXTERNAL TOOLS.
+echo CHANGES MADE DIRECTLY TO SOURCE FILES ARE LIKELY TO GET OVERWRITTEN ON UPDATE,
+echo UNLESS TEMPLATES AND DATA FILES INSIDE './utils/datagen/data/*' ARE ALSO MODIFIED.
+echo
+echo To ensure proper compilation, execute windows-equivalent commands listed inside
+echo './utils/datagen/autocopy.sh', as this is the proper way to assemble the project.
+echo If you can, write a DOS/PS script to automate it, and open a pull request.
+echo I personally have no interest in supporting Windows at all, and if it works, great,
+echo if it doesn't, well not my problem. ~KJEntytek303
+
+pause
+
 @if "%DEBUG%"=="" @echo off
 @rem ##########################################################################
 @rem

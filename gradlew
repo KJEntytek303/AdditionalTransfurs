@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #
 # Copyright © 2015-2021 the original authors.
@@ -61,6 +61,33 @@
 #       You can find Gradle at https://github.com/gradle/gradle/.
 #
 ##############################################################################
+
+#Changes by KJEntytek303:
+#Script assumes you use bash.
+
+should_assemble=0
+
+for i in $@; do
+	case $i in
+		assemble) 
+			cd utils/datagen
+			./autocopy.sh
+			cd ../..
+			exit 0
+			;;
+		build)
+			cd utils/datagen
+			./autocopy.sh
+			cd ../..
+			;;
+	esac
+done
+
+cd utils/datagen
+./autocopy.sh
+cd ../..
+
+#continue normally.
 
 # Attempt to set APP_HOME
 

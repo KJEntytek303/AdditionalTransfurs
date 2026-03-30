@@ -31,6 +31,7 @@ public class InitEntities
 	public static final DeferredRegister<EntityType<?>> ENTITY_REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, AdditionalTransfurs.MODID);
 	public static final HashMap<String, Pair<Integer, Integer>> ENTITY_COLORS = new HashMap<>();
 	public static final List<Pair<Supplier<EntityType<? extends ChangedEntity>>, Supplier<AttributeSupplier.Builder>>> INIT_ATTRIBS = new ArrayList<>();
+
 /*PERL_ENTITIES*/
 	
 	@SubscribeEvent

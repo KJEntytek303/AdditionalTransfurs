@@ -4,7 +4,6 @@ import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
 import net.kjentytek303.additional_transfurs.client.renderer.model.AvaliModel;
 import net.kjentytek303.additional_transfurs.client.renderer.model.LatexFoxModel;
 import net.kjentytek303.additional_transfurs.entity.Avali;
-import net.kjentytek303.additional_transfurs.entity.LatexFox;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.CustomEyesLayer;
 import net.ltxprogrammer.changed.client.renderer.layers.GasMaskLayer;

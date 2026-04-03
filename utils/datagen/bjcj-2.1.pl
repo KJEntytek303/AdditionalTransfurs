@@ -8,7 +8,8 @@ my $IMPORTS='package net.kjentytek303.additional_transfurs.client.renderer.model
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
-import net.kjentytek303.additional_transfurs.entity./*PERL_CAPITALIZED_NAME*/;
+import net.kjentytek303.additional_transfurs.entity.*;
+import net.kjentytek303.additional_transfurs.entity.generated.*;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -87,7 +88,7 @@ my $CENTAUR_LEG_OVERRIDES = '
 		if (limb == Limb.LOWER_TORSO)
 			return TransfurHelper.getTaurTorso();
 		else if (limb == Limb.TORSO)
-			return TransfurHelper.getFeminineTorsoAlt();
+			return null;
 		return super.getTransfurHelperModel(limb);
 	}
 
@@ -101,7 +102,7 @@ my $CENTAUR_LEG_OVERRIDES = '
 		return LowerTorso;
 	}
 
-';
+'; #TODO: Fix when adding a female model converter.
 
 my $MASKED = '	public boolean isPartNotMask(ModelPart part) { return Mask.getAllParts().noneMatch(part::equals); }
 	';

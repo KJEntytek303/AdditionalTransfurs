@@ -1,6 +1,5 @@
-package net.kjentytek303.additional_transfurs.entity;
+package net.kjentytek303.additional_transfurs.entity.generated;
 
-import net.kjentytek303.additional_transfurs.init.IEntityInit;
 import net.kjentytek303.additional_transfurs.init.utils.*;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.latex.LatexType;
@@ -30,45 +29,44 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 
-import static net.kjentytek303.additional_transfurs.init.InitEntities.LATEX_FOX;
+import static net.kjentytek303.additional_transfurs.init.InitEntities.LATEX_PLANT_DRAGON;
 
 import org.jetbrains.annotations.Nullable;
 
 
-public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
+public class LatexPlantDragon extends ChangedEntity /*PERL_IMPLEMENTS*/
 {
 
 	/*PERL_ABSTRACT_DELETE_BEGIN*/
-	public static EntityType.Builder<LatexFox> getEntityInitBuilder() {
-		return EntityType.Builder.of(LatexFox::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F) ;
+	public static EntityType.Builder<LatexPlantDragon> getEntityInitBuilder() {
+		return EntityType.Builder.of(LatexPlantDragon::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F) ;
 	}
 	
-	public static RegistryObject<EntityType<LatexFox>> getEntityInitRObject() {
+	public static RegistryObject<EntityType<LatexPlantDragon>> getEntityInitRObject() {
 		return InitUtils.getEntityInitRObject(
-			   "latex_fox",
-			   0xE37107,
-			   0x9E4F05,
-			   LatexFox.getEntityInitBuilder(),
+			   "latex_plant_dragon",
+			   0x29441b,
+			   0x1c2f13,
+			   LatexPlantDragon.getEntityInitBuilder(),
 			   ChangedEntity::createLatexAttributes
 		);
 	}
 	
-	public static TransfurVariant<LatexFox> getTFInitBuilder()
+	public static TransfurVariant<LatexPlantDragon> getTFInitBuilder()
 	{
 		return TransfurVariant.Builder
-			   .of(LATEX_FOX)
+			   .of(LATEX_PLANT_DRAGON)
+			   
+			   .glide(true)
 			   
 			   
-			   
-			   
-			   .visionType(VisionType.NIGHT_VISION)
+			   .visionType(VisionType.NORMAL)
 			   
 			   .itemUseMode( UseItemMode.NORMAL )
 
 			   .transfurMode(TransfurMode.REPLICATION)
 			   .addAbility(ChangedAbilities.SWITCH_TRANSFUR_MODE)
  			   .addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY)
- 			   .addAbility(ChangedAbilities.TOGGLE_NIGHT_VISION)
 
 			   
 			   
@@ -80,10 +78,10 @@ public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 		
 		if ( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
 		
-		event.register( LATEX_FOX.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexFox::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
+		event.register( LATEX_PLANT_DRAGON.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexPlantDragon::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
 	}
 	
-	public LatexFox(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
+	public LatexPlantDragon(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
 	
 	@Override
 	public TransfurMode getTransfurMode() {
@@ -95,19 +93,15 @@ public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 	@Override
 	protected void setAttributes (AttributeMap attributes) {
 		super.setAttributes(attributes);
-		attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.1);
- 		attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(0.93);
- 		attributes.getInstance(ChangedAttributes.SNEAK_SPEED.get()).setBaseValue(1.5);
- 		attributes.getInstance(ChangedAttributes.SPRINT_SPEED.get()).setBaseValue(1.25);
- 		attributes.getInstance(ChangedAttributes.JUMP_STRENGTH.get()).setBaseValue(1.5);
- 		attributes.getInstance(ChangedAttributes.FALL_RESISTANCE.get()).setBaseValue(2.5);
+		attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.0);
+ 		attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue(24.0);
+ 		attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(0.85);
 
 	}
 	
-	public Color3 getTransfurColor(TransfurCause cause) { return Color3.fromInt(0xE37107); }
+	public Color3 getTransfurColor(TransfurCause cause) { return Color3.fromInt(0x213915); }
 	
-	@Override
-	public int getTicksRequiredToFreeze() { return 400; }
+	
 
 	/*PERL_FLYING_SPEED*/
 

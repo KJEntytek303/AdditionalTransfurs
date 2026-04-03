@@ -1,8 +1,8 @@
-package net.kjentytek303.additional_transfurs.client.renderer;
+package net.kjentytek303.additional_transfurs.client.renderer.generated;
 
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
 import net.kjentytek303.additional_transfurs.client.renderer.model.PERL_ENTITY_NAMEModel;
-import net.kjentytek303.additional_transfurs.entity.PERL_ENTITY_NAME;
+import net.kjentytek303.additional_transfurs.entity.generated.PERL_ENTITY_NAME;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.*;
 import net.ltxprogrammer.changed.client.renderer.model.armor.*;
@@ -14,7 +14,7 @@ public class PERL_ENTITY_NAMERenderer extends AdvancedHumanoidRenderer<PERL_ENTI
 	public static final ResourceLocation DEFAULT_SKIN_LOCATION = AdditionalTransfurs.modResource("textures/entity/PERL_LOWERCASE_NAME.png");
 	
 	public PERL_ENTITY_NAMERenderer(EntityRendererProvider.Context context) {
-		super(context, new PERL_ENTITY_NAMEModel(context.bakeLayer(PERL_ENTITY_NAMEModel.LAYER_LOCATION)), PERL_ARMOR_MODEL, 0.5f);
+		super(context, new PERL_ENTITY_NAMEModel(context.bakeLayer(PERL_ENTITY_NAMEModel.LAYER_LOCATION)), PERL_ARMOR_MODEL, PERL_SHADOW_SIZEf);
 		this.addLayer(new LatexParticlesLayer<>(this, getModel()));
 		this.addLayer(TransfurCapeLayer.normalCape(this, context.getModelSet()));
 		/*PERL_CUSTOM_EYES*/

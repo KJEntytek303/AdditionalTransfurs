@@ -13,8 +13,6 @@ my $errored=0;
 my $mode='NORMAL';
 my $array='';
 my @infile = ();
-my $omit_files = 0;
-my $output_path='';
 
 #}}}
 
@@ -51,7 +49,6 @@ my $spawn_heightmap="MOTION_BLOCKING_NO_LEAVES";
 my $latex_type="";
 my $riding_offset='';
 my $builder='';
-my $gendered='false';
 
 #}}}
 
@@ -97,8 +94,8 @@ $mode ='ARRAY';
 		if ( $_ =~ /^ABILITY_COLOR_1ST=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_back = $1; }
 		if ( $_ =~ /^ABILITY_COLOR_2ND=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_front = $1; }
 		if ( $_ =~ /^LATEX_TYPE=(NONE|WHITE_LATEX|DARK_LATEX)/ ) { $latex_type = $1; }
-		if ( $_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA)/ ) { $spawn_placement = $1; }
-		if ( $_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING|MOTION_BLOCKING_NO_LEAVES)/ ) { $spawn_heightmap = $1; }
+		if ( $_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA|null)/ ) { $spawn_placement = $1; }
+		if ( $_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING|MOTION_BLOCKING_NO_LEAVES|null)/ ) { $spawn_heightmap = $1; }
 		if ( $_ =~ /^BUILDER=(.+)/ ) { $builder = $1; }
 
 		next;
@@ -154,10 +151,6 @@ $mode ='ARRAY';
 
 	$errored = 1;
 	print STDERR "Internal Compiler Error - bad mode: $mode\n";
-}
-if ( $gendered eq 'true' && ( $output_path eq '' || ! $omit_files) ) {
-	$errored = 1;
-	print STDERR "Error: Gendered entity without specifying output path or explicit omit.\n";
 }
 
 if ( $builder eq '' ) { $errored = 1; print STDERR "Error: Empty entity builder\n"; }
@@ -342,14 +335,6 @@ sub getsopt {# {{{
 				printHelp();
 				exit(0);
 			}
-			if ( $_ eq '-p' ) {
-				$eval = 'output_path';
-				next;
-			}
-			if ( $_ eq -P ) {
-				$omit_files = 1;
-				next;
-			}
 		}
 
 		if ( $eval eq 'name' ) {
@@ -358,13 +343,6 @@ sub getsopt {# {{{
 				$eval = '';
 				next;
 			}
-		}
-		if ( $eval eq 'output_path' ) {
-			if ( ! ( -d $_ ) ) {
-				die '$_: No such directory\nErrors occured, compilation aborted.\n';
-			}
-			$output_path = $_;
-			$eval='';
 		}
 	}
 	if ( $name eq '' ) { die "Error: no class name given.\nErrors occurred, compilation aborted\n"; }
@@ -381,8 +359,6 @@ USAGE:
 OPTIONS:
  -h		- Displays this message
  -n NAME	- Sets class name to NAME. Required
- -p PATH	- Output directory. If ommited, prints to STDOUT. Required for gendered variants.
- -P		- Explicitly omit output path and print to STDOUT. Allows to omit -p for gendered variants. Only male variant will be printed.
 ";
 
 } 

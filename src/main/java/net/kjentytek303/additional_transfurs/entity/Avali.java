@@ -44,7 +44,7 @@ public class Avali extends ChangedEntity {
 		
 		if ( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
 		
-		event.register( LATEX_FOX.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexFox::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
+		event.register( LATEX_FOX.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Avali::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
 	}
 	
 	public static TransfurVariant<Avali> getTFInitBuilder()

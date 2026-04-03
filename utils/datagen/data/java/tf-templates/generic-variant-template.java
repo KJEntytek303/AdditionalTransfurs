@@ -1,6 +1,5 @@
-package net.kjentytek303.additional_transfurs.entity;
+package net.kjentytek303.additional_transfurs.entity.generated;
 
-import net.kjentytek303.additional_transfurs.init.IEntityInit;
 import net.kjentytek303.additional_transfurs.init.utils.*;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.latex.LatexType;

@@ -4,10 +4,8 @@ import com.mojang.datafixers.util.Pair;
 
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
 
- import net.kjentytek303.additional_transfurs.entity.Avali; 
- import net.kjentytek303.additional_transfurs.entity.LatexFox; 
- import net.kjentytek303.additional_transfurs.entity.LatexPlantDragon; 
-
+ import net.kjentytek303.additional_transfurs.entity.*;
+ import net.kjentytek303.additional_transfurs.entity.generated.*;
 
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 

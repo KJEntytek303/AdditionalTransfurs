@@ -3,7 +3,7 @@ package net.kjentytek303.additional_transfurs.client.renderer.model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
-import net.kjentytek303.additional_transfurs.entity.LatexPlantDragon;
+import net.kjentytek303.additional_transfurs.entity.generated.LatexPlantDragon;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;

@@ -83,10 +83,6 @@ for i in $@; do
 	esac
 done
 
-cd utils/datagen
-./autocopy.sh
-cd ../..
-
 #continue normally.
 
 # Attempt to set APP_HOME

@@ -122,8 +122,13 @@ net.minecraft.world.entity.monster.Creeper
 ]
 
 
-;Spawn placement type. Valid values: ON_GROUND, IN_WATER, NO_RESTRICTIONS, IN_LAVA
+;Spawn placement type. Valid values: ON_GROUND, IN_WATER, NO_RESTRICTIONS, IN_LAVA, null
+;'null' to disable.
 SPAWN_PLACEMENT=ON_GROUND
+
+;spawn heightmap. valid options are WORLD_SURFACE_WG, WORLD_SURFACE, OCEAN_FLOOR_WG, OCEAN_FLOOR, MOTION_BLOCKING, MOTION_BLOCKING_NO_LEAVES
+;null disables spawn. If unsure, put MOTION_BLOCKING_NO_LEAVES.
+SPAWN_HEIGHTMAP=MOTION_BLOCKING_NO_LEAVES
 
 ;Tag template to use when checking spawn biomes.
 ;BIOME_PRESET=
@@ -138,8 +143,11 @@ SPAWN_WEIGHT=5
 ;Renderer type. Accepted values: PARTIAL_TF, HUMANOID
 RENDERER_TYPE=HUMANOID
 
+;Used together with switch hands ability.
+MULTIHANDED_RENDERER=true
+
 ;Entity Armor Type. Accepts Classpaths
-ARMOR_TYPE=net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleCatModel
+ARMOR_MODEL=net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleCatModel
 
 ;if the model has iris. Default: true
 EYES_PRESENT=true
@@ -152,20 +160,27 @@ EYES_PRESENT=true
 ;gas mask layer function
 GAS_MASK_LAYER=net.ltxprogrammer.changed.client.renderer.layers.GasMaskLayer.forSnouted
 
+;Used together with Latex Particle Layer, so particles don't spawn on the mask. WARNING: Requires a compatible model.
+IS_MASKED=false
+
+
 ;If the model has an emmisive layer
 EMISSIVE_LAYER=true
 
-;Model AnimatorPreset
-;THIS WILL LIKELY CHANGE DUE TO CHANGES IN BJCJ CONVERTER
-ANIM_PRESET=cat
+;If the model has a translucent layer
+TRANSLUCENT_LAYER=true
+
 
 ;Model Scale. Accepts floats
 MODEL_SCALE=1.0;
 
+;Shadow size. Default is 0.5
+SHADOW_SIZE=0.5
 
 
-
-
+;Model AnimatorPreset
+;THIS WILL LIKELY CHANGE DUE TO CHANGES IN BJCJ CONVERTER
+ANIM_PRESET=cat
 
 ;Additional builder parameters
 ;net.minecraft.world.entity.EntityType.Builder argument, REQUIRED. Not checked at compile time. Defines entity size and other stuff.

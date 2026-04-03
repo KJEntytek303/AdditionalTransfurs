@@ -6,11 +6,14 @@ use strict;
 use File::Path qw(make_path);
 
 my @files;
+my $extension="mctag";
+my $template="tmp/tag.json.template";
+my $gl_errored=0;
 
-open(my $CACHED_LOCATIONS, "<cache") or die "Couldn't open discovered file struct: $!\nAborted";
+open(my $CACHED_LOCATIONS, "<tmp/cache") or die "Couldn't open discovered file struct: $!\nAborted";
 
 foreach (<$CACHED_LOCATIONS>) {
-	if ( $_ =~ /(.+\.mctag)/ ) {
+	if ( $_ =~ /(.+\.$extension)/ ) {
 		push( @files, $1 );
 	}
 }
@@ -19,19 +22,20 @@ close $CACHED_LOCATIONS;
 foreach(@files) {
 
 	my $gen_path = $_;
-	$gen_path =~ s/^data/generated/;
+	$gen_path =~ s/^tmp/generated/;
 
 	my $gen_dir_path = $gen_path;
 	$gen_dir_path =~ s/(\/)[^\/]+$//; #delete file name and leave just dir path.
 
-    mkdir "generated";
-    mkdir "generated/data";
+	mkdir "generated";
+	mkdir "generated/data";
 	make_path($gen_dir_path);
 
-	$gen_path =~ s/\.mctag$/\.json/;
+	$gen_path =~ s/\\.$extension$/\.json/;
 
-	$gen_path =~ s/mctag$/json/;
 	my $errored = 0;
+
+	getsopt(@ARGV);
 
 	my @tag_values;
 	open( my $FILE, "<$_" ) or die "Couldn't open file '$_': $!";
@@ -69,7 +73,7 @@ foreach(@files) {
 		print STDERR "in file \"$_\"\n";
 		next;}
 
-	open( my $TFILE, 'tag.json.template' ) or die "Couldn't open file 'tag.json.template': $!";
+	open( my $TFILE, $template ) or die "Couldn't open file '$template': $!";
 	my @TAG_FILE = <$TFILE>;
 	close ($TFILE);
 
@@ -85,4 +89,32 @@ foreach(@files) {
 	}
 
 	close (WFILE);
+}
+
+sub getsopt {
+	my $eval = "";
+	foreach(@_) {
+		if ($eval eq "") {
+			if ($_ eq "-t") {
+				$eval = "template";
+				next;
+			}
+			
+			if ($_ eq "-e") {
+				$eval = "extension";
+				next;
+			}
+			
+			$gl_errored = 1;
+			print STDERR "Invalid option $_\n";
+		}
+
+		if ($eval eq "template") { $template = $_; next; }
+		if ($eval eq "extension") { $extension = $_; next; }
+
+		$gl_errored = 1;
+		print STDERR "Assertion failed: Invalid eval mode $_\n";
+
+	}
+	if($gl_errored) { die "Errors occured, compilation aborted"; }
 }

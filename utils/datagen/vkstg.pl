@@ -1,8 +1,14 @@
 #!/usr/bin/perl
 #VKSTG - Validator of KJEntytek's Simple Transfur Generator
+#WARNING: Shell Tainted script.
 
 use strict;
 #use warnings; #ENABLE ONLY DURING TESTING, generally keep it disabled on production.
+
+if( $^O ne "linux" && $^O ne "darwin" ) {
+	print STDERR "Warning: Shell tainted script.\n";
+	print STDERR "Unexpected errors might arise on windows\n";
+}
 
 my @mapped_file = ();
 my @IFILE = ();
@@ -50,6 +56,7 @@ foreach ( @IFILE ) {
 			print STDERR "Error: Template file $1 not found, line $i\n";
 			next;
 		} #}}}
+
 		if ( $_ =~ /^RENDERER_TEMPLATE=(.+)/ ) {
 			if( -f "data/java/renderers/$1.java" ) {
 				push ( @mapped_file, $_ );
@@ -79,23 +86,25 @@ foreach ( @IFILE ) {
 		$_ =~ /^ABILITY_COLOR_1ST=(0x[0-9a-fA-F]{,6})\h*/ ||
 		$_ =~ /^ABILITY_COLOR_2ND=(0x[0-9a-fA-F]{,6})\h*/ ||
 		$_ =~ /^LATEX_TYPE=(WHITE_LATEX|DARK_LATEX|NONE)/ ||
-		$_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA)/ ||
-		$_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING|MOTION_BLOCKING_NO_LEAVES)/ ||
+		$_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA|null)/ ||
+		$_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING|MOTION_BLOCKING_NO_LEAVES|null)/ ||
 		$_ =~ /^BUILDER=(.+)/ ||
 		$_ =~ /^MIN_SPAWN=(\d)*/ ||
 		$_ =~ /^MAX_SPAWN=(\d)*/ ||
 		$_ =~ /^SPAWN_WEIGHT=(\d)*/ ||
 		$_ =~ /^RENDERER_TYPE=/ ||
 		$_ =~ /^MULTIHANDED_RENDERER=(true|false)/ ||
-		$_ =~ /^ARMOR_MODEL=/ ||
+		$_ =~ /^ARMOR_MODEL=(.+)/ ||
 		$_ =~ /^EYES_PRESENT=(true|false)\h*$/ ||
-		$_ =~ /^IRIS_1ST_COLOR=0x([0-9a-fA-F]{,6})\h*(dl|)/ ||
-		$_ =~ /^IRIS_2ND_COLOR=0x([0-9a-fA-F]{,6})\h*(dl|)/ ||
-		$_ =~ /^SCLERA_COLOR=0x([0-9a-fA-F]{,6})\h*(dl|)/ ||
+		$_ =~ /^IRIS_1ST_COLOR=(0x([0-9a-fA-F]{,6})\h*(dl|)\h*$)/ ||
+		$_ =~ /^IRIS_2ND_COLOR=(0x([0-9a-fA-F]{,6})\h*(dl|)\h*$)/ ||
+		$_ =~ /^SCLERA_COLOR=(0x([0-9a-fA-F]{,6})\h*(dl|)\h*$)/ ||
 		$_ =~ /^GAS_MASK_LAYER=(.+)/ ||
+		$_ =~ /^IS_MASKED=(true|false)/ ||
 		$_ =~ /^EMISSIVE_LAYER=(true|false)/ ||
 		$_ =~ /^TRANSLUCENT_LAYER=(true|false)/ ||
 		$_ =~ /^MODEL_SCALE=(\d+\.\d+)/ ||
+		$_ =~ /^SHADOW_SIZE=(\d+\.\d+)/ ||
 		$_ =~ /^ANIM_PRESET=(.)+\h*$/ ||
 		$_ =~ /^RIDING_OFFSET=(\d+\.\d+)/ ||
 		$_ =~ /^GENDERED=(true|false)/

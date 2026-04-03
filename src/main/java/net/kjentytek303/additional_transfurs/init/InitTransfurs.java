@@ -2,10 +2,8 @@ package net.kjentytek303.additional_transfurs.init;
 
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
 
- import net.kjentytek303.additional_transfurs.entity.Avali;
- import net.kjentytek303.additional_transfurs.entity.LatexFox;
- import net.kjentytek303.additional_transfurs.entity.LatexPlantDragon;
-
+ import net.kjentytek303.additional_transfurs.entity.*;
+ import net.kjentytek303.additional_transfurs.entity.generated.*;
 import net.ltxprogrammer.changed.entity.variant.GenderedPair;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.ChangedRegistry;

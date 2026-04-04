@@ -18,7 +18,7 @@ my @infile = ();
 
 #variables #{{{
 
-my $template = "data/java/tf-templates/generic-variant-template.java";	#template file
+my $template = "data/java/tf-templates/generic-variant.java.template";	#template file
 my $extend = "ChangedEntity";	#which class to extend
 my @implements = ();
 my $name='';
@@ -73,7 +73,7 @@ $mode ='ARRAY';
 		} # }}}
 
 		if ( $_ =~ /^TEMPLATE=(.+)/ ) { # {{{
-			$template = $1
+			$template = "data/java/tf-templates/" . $1 . ".java.template";
 		} #}}}
 
 		if ( $_ =~ /^EXTEND=([a-zA-Z0-9])+\h*/ ) { $extend = $1; }

@@ -1,15 +1,21 @@
 package net.kjentytek303.additional_transfurs.entity.generated;
 
-import net.kjentytek303.additional_transfurs.init.utils.*;
+import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
+
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.latex.LatexType;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.*;
 
 import net.ltxprogrammer.changed.util.Color3;
+
+import net.kjentytek303.additional_transfurs.utils.InitUtils;
+import net.kjentytek303.additional_transfurs.utils.Tags;
+
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -111,5 +117,23 @@ public class LatexPlantDragon extends ChangedEntity /*PERL_IMPLEMENTS*/
 
 	
 
+	@Override
+	public void tick() {
+	    super.tick();
+		var player = this.getUnderlyingPlayer();
+		if ( player == null ) { return; }
 
+		try {
+			if ( ! this.level().isClientSide()
+			/*
+			    player instanceof ServerPlayer playerS  &&
+			    this.getBlockStateOn().is(Tags.ATBlockTags.SATURATES_PLANT_TFS) &&
+				playerS.getFoodData().needsFood() &&
+				(player.tickCount % 1) == 0*/ //TODO Replace with a serverconfig. Might throw DIV0 excpt.
+			) { player.getFoodData().eat(2, 1.0f); }
+			//TODO: play sounds.
+		}
+		catch ( java.lang.ArithmeticException e ) { AdditionalTransfurs.LOGGER.atWarn().log("Caught exception in PlantDerg: " + e.getMessage()); }
+
+	}
 }

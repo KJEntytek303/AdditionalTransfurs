@@ -31,7 +31,7 @@ foreach(@files) {
 	mkdir "generated/data";
 	make_path($gen_dir_path);
 
-	$gen_path =~ s/\\.$extension$/\.json/;
+	$gen_path =~ s/\.$extension$/\.json/;
 
 	my $errored = 0;
 

@@ -47,7 +47,7 @@ foreach ( @IFILE ) {
 		} # }}}
 
 		if ( $_ =~ /^TEMPLATE=(.+)/ ) { # {{{
-			if(-f ( "data/java/tf-templates/$1" . ".java" ) ) {
+			if(-f ( "data/java/tf-templates/$1" . ".java.template" ) ) {
 				push( @mapped_file, $_ );
 				next;
 			}

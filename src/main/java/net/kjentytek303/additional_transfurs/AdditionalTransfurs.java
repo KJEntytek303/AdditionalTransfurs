@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 public class AdditionalTransfurs
 {
     public static final String MODID = "additional_transfurs";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
 
     public AdditionalTransfurs(FMLJavaModLoadingContext context)
@@ -42,7 +42,7 @@ public class AdditionalTransfurs
     
     
     public static ResourceLocation modResource(String path) {
-        return new ResourceLocation(MODID, path);
+        return ResourceLocation.tryBuild( MODID, path );
     }
     
     public static String modResourceStr(String path) {

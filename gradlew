@@ -77,8 +77,7 @@ for i in $@; do
 			;;
 		build)
 			cd utils/datagen
-			./autocopy.sh
-			errored_assembly=$?
+			errored_assembly= ./autocopy.sh
 			cd ../..
 
 			if [[ $errored_assembly ]]; then

@@ -1,4 +1,4 @@
-package net.kjentytek303.additional_transfurs.init.utils;
+package net.kjentytek303.additional_transfurs.utils;
 
 import com.mojang.datafixers.util.Pair;
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
@@ -6,8 +6,6 @@ import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.RegistryObject;
 

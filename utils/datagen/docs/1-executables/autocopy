@@ -11,7 +11,7 @@
 autocopy.sh is an automation script, allowing for easy, one-command way of executing a chain of repetitive commands, required to generate transfur variants and all related files.
 
 .SH HOW AUTOCOPY WORKS
-.PP
+.P
 autocopy.sh requires a strict directory structure due to some names being hardcoded. Consult
 .B directory-structure(5)
 for more info. In short, autocopy.sh creates and manages directories
@@ -20,7 +20,7 @@ as well as is responsible for creation of the whole directory tree inside
 .I generated/
 directory.
 
-.PP
+.P
 At first, autocopy wipes
 .I tmp/
 and 
@@ -32,7 +32,7 @@ This is to ensure that no files from previous runs remain and potentially corrup
 directory are then copied to
 .I tmp/.
 
-.PP
+.P
 Next, autocopy.sh invokes
 .B geng.pl(1)
 to process gendered variants before the
@@ -41,7 +41,7 @@ validator and cache generation. This is done because other tools are incapable o
 .I tmp/cache
 file, to know about the location of their respective files.
 
-.PP
+.P
 Next, autocopy.sh invokes 
 .B find(1)
 to generate cache, as well as to discover directory structures of
@@ -50,7 +50,7 @@ and
 .I tmp/assets
 directories. This is important, because many programs output into these directories, and they must be created before most programs are runned. This is also the time when generated/java/* directories are created.
 
-.PP
+.P
 Next, autocopy begins variant generation. It starts by declaring an error control variable, but in place for safety, as most tools generate empty file on error. The first tool that is ran is
 .B vkstg.pl(1)
 transfur validator, which output is stored to
@@ -59,7 +59,7 @@ If it returns an error, autocopy.sh aborts variant file generation and file copy
 .B vkstg(1)
 print error messages for all variants, and prints the name of the file which caused an error.
 
-.PP
+.P
 Next, if the validation succeeded, autocopy calls 2 programs:
 .B kstfg.pl(1)
 responsible for generating transfur .java classes and
@@ -69,14 +69,14 @@ responsible for generating renderer .java classes. The last thing it does is app
 variant list, that is
 .I tmp/variants.greg.
 
-.PP
+.P
 Once all transfurs have been processed,
 .gtmpg.pl(1)
 is called. It's job is to generate all tag-like related entries from the
 .I tmp/data/
 directory, converting them into .json format accepted by minecraft datapacks.
 
-.PP
+.P
 Next, the 
 .B greg(1)
 registry generator is called. It's job is to generate all the registry files required for the mod to work. It has to be called after the transfur generator, as during the execution of
@@ -85,16 +85,21 @@ autocopy.sh appends data to
 .I tmp/variants.greg
 file.
 
-.PP
+.P
 Lastly, if everything succeeded, generated files are copied over to their respective locations in the mod. That is
+
 .I ./src/main/java/<package_name>/init/
 for registries.
+
 .I ./src/main/java/<package_name>/entity/generated/
 for transfur variants.
+
 .I ./src/main/java/<package_name>/client/renderer/generated/
 for renderers.
+
 .I ./src/main/resources/data/
 for data files.
+
 .I ./src/main/resources/assets/
 for asset files.
 

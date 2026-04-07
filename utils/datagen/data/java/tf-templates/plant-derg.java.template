@@ -17,6 +17,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -123,8 +124,9 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 		    this.getBlockStateOn().is(Tags.ATBlockTags.SATURATES_PLANT_TFS) &&
 			playerS.getFoodData().needsFood() &&
 			(player.tickCount % 200) == 0 //TODO Replace with a serverconfig and make a sanity check. Might throw DIV0 excpt.
-		) { player.getFoodData().eat(1, 0.25f); }
-		//TODO: play sounds.
-
+		) {
+			player.getFoodData().eat(1, 0.25f);
+			if ( !level.isClientSide() ) { level.playSeededSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHROOMLIGHT_HIT, SoundSource.PLAYERS, 0.5f, 0.75f, 0); }
+		}
 	}
 }

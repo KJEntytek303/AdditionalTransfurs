@@ -1,0 +1,11 @@
+{
+ "entity.additional_transfurs.avali": "Avali",
+ "entity.additional_transfurs.latex_fox": "Latex róka",
+ "entity.additional_transfurs.latex_plant_dragon": "Latex növénysárkány",
+
+ "item.additional_transfurs.avali_spawn_egg": "Avaliidéző tojás",
+ "item.additional_transfurs.latex_fox_spawn_egg": "Latex rókát idéző tojás",
+ "item.additional_transfurs.latex_plant_dragon_spawn_egg": "Latex növénysárkányt idéző tojás",
+
+ "json.terminator": ""
+}

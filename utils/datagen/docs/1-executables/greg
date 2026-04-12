@@ -1,0 +1,149 @@
+.TH greg.pl "1"
+
+.SH NAME
+.B greg.pl
+- Global Registry Generator
+
+.SH SYNOPSIS
+\&./greg.pl
+
+.SH DESCRIPTION
+GReG is a small program designed to automatically generate transfur variant registries based on given Java class names. 
+
+.B Files owned by GReG:
+
+.RS 4
+.I ./tmp/java/registry/*
+- Template registry files. Curently:
+.RS 6
+
+.I InitEntities.java
+.br
+.I InitLayerDefinitions.java
+.br
+.I InitRenderers.java
+.br
+.I InitTransfurs.java
+.RE 
+
+.br
+.I ./generated/java/registry/*
+- GReG's output files. Currently:
+
+.RS 6
+.I InitEntities.java
+.br
+.I InitLayerDefinitions.java
+.br
+.I InitRenderers.java
+.br
+.I InitTransfurs.java
+.RE 
+
+.I ./tmp/variants.greg
+as STDIN input.
+
+.RE
+
+.SH OPERATION
+.br 
+GReG begins it's work by scanning STDIN for variant class names, in a
+.B slof(5)
+file. Typically this is done by piping 
+.I ./tmp/variants.greg
+file into STDIN.
+
+Once this is done, GReG validates it's input,
+with 
+.I ^[A-Z][a-zA-Z]* 
+regex.
+
+Next, if the previous step succeeded, the 4 registries are generated.
+
+.PP
+.B InitEntities
+
+.RS 4
+First registry generated is the entity registry. GReG begins by scanning 
+.I ./tmp/java/reistry/InitEntities.java
+file and storing it in memory.
+Next, GReG figures out the variant names in uppercase variats and generates both registry objects and SpawnPlacementRegisterEvent calls.
+During this step, GReG looks for the following strings:
+
+.I /*PERL_ENTITIES*/
+- gets replaced with registry objects
+.br
+.I /*PERL_REGISTER_SPAWNS*/
+- gets replaced with SpawnPlacementRegisterEvent function calls.
+
+Once this is done, GReG Then it writes the file to
+.I ./generated/java/registry/InitEntities.java
+file.
+
+
+.RE
+
+.PP
+.B InitLayerDefinitions
+
+.RS 4
+
+GReG begins generation of ModelLayerDefinition registry by scanning
+.I ./tmp/java/registry/InitLayerDefinitions
+file, and storing it in memory.
+Next, GReG figures out the model name, and then generates appropriate event regiter calls.
+During this step, GReG looks for the following strings:
+
+.I /*PERL_LAYER_DEFINITIONS*/
+- gets replaced with event register calls
+
+In addition, due to model names being predictable (for now) GReG also generates import statements and adds them as needed.
+During this step, GReG looks for the following strings:
+
+.I /*PERL_MODEL_IMPORTS*/
+- gets replaced with model imports.
+
+When this is done, the modified file is written to 
+.I ./generated/java/registry/InitLayerDefinitions.
+.RE
+
+.PP
+.B InitRenderers
+
+.RS 4
+GreG begins generation of renderer registry by scanning
+.I ./tmp/java/registry/InitRenderers.java
+file, and storing it in memory.
+Next, GReG figures out the variant uppercase name, the renderer name and generates appropriate event calls based on that information.
+During this, GReG looks for the
+.I /*PERL_RENDERERS*/
+string, and replaces it with the generated event function calls.
+
+When this is done, the modified file is written to
+.I ./generated/java/registry/InitRenderers.java
+.RE
+
+.PP
+.B InitTransfurs
+.RS 4
+
+GReG begins generation of transfur variant registry by scanning
+.I ./tmp/java/registry/InitTransfurs.java
+file, and storing it in memory.
+Next, GReG figures out the variant uppercase name and the variant lowercase name. Then, GReG generates appropriate registry objects based on that info.
+During this step, GReG looks for
+.I /*PERL_TRANSFURS*/
+string and replaces it with the generated registry objects.
+
+.RE
+
+.SH NOTES
+
+GReG assumes that the entity class obeys AT Init system, see
+.B at-init-system(7)
+for details,
+otherwise GReG will generate errors if you use a different init system, for example: CMod Init System.
+
+GReG has no idea about gendered variants, as this is the job of
+.B geng.pl(1).
+

@@ -3,8 +3,8 @@ package net.kjentytek303.additional_transfurs.init;
 import com.mojang.datafixers.util.Pair;
 
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
-
- /*PERL_ENTITY_IMPORTS*/
+import net.kjentytek303.additional_transfurs.entity.*;
+import net.kjentytek303.additional_transfurs.entity.generated.*;
 
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 

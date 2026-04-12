@@ -2,15 +2,12 @@
 
 use warnings;
 use strict;
-use File::Path qw(make_path);
 
 #GReG - Global Registry Generator by KJEntytek303.
 
 my @variants = ();
-my $output_dir = "generated/java/registries";
-make_path($output_dir);
-
-
+my $errored = 0;
+my $output_dir = "generated/java/registry";
 
 while ( !eof STDIN ) {
 	my $tmp = <STDIN>;
@@ -19,31 +16,38 @@ while ( !eof STDIN ) {
 
 my @mapped_file = ();
 
+my $i = 0;
 foreach (@variants) {
+	$i++;
 	chomp( $_ );
-	if ( $_ =~ /^\h*$/ ) {
+	if ( ( $_ =~ /^\h*$/ ) || ( $_ =~ /^;/ )) {
 		next;
 	}
 		
 	if ( ! ( $_ =~ /^[A-Z][a-zA-Z]*/ ) ) {
-		die "GReG: Invalid variant name: $_";
+		print STDERR "GReG: Invalid variant: $_, line $i\n";
+		next;
 	}
+
 	push(@mapped_file, $_);
 }
 @variants = @mapped_file;
 undef @mapped_file;
+undef $i;
 
+if ($errored == 1) {
+	die "GReG: Errors Ocurred, compilation aborted.\n";
+}
 generateEntities(@variants);
 generateLayers(@variants);
 generateRenderers(@variants);
 generateTransfurs(@variants);
 
 sub generateEntities {# {{{
-	my $IMPORT = "import net.kjentytek303.additional_transfurs.entity.*;\n import net.kjentytek303.additional_transfurs.entity.generated.*;";
 	my $ROBJECT = '	public static final RegistryObject<EntityType<PERL_ENTITY_NAME>> PERL_CAPITALIZED_ENTITY_NAME = PERL_ENTITY_NAME.getEntityInitRObject();';
 	my $SPAWN="\t\tPERL_ENTITY_NAME.registerSpawns(event);";
 
-	open(my $RFILE, '<', 'data/java/registry/InitEntities.java') or die "GReG: Couldn't open entity registry file: $!. Aborted";
+	open(my $RFILE, '<', 'tmp/java/registry/InitEntities.java') or die "GReG: Couldn't open entity registry file: $!. Aborted";
 	my @mapped_file = <$RFILE>;
 	close($RFILE);
 
@@ -70,12 +74,11 @@ sub generateEntities {# {{{
 	}
 
 	foreach (@mapped_file) {
-		$_ =~ s/\/\*PERL_ENTITY_IMPORTS\*\//$IMPORT/;
 		$_ =~ s/\/\*PERL_ENTITIES\*\//@robjects/;
 		$_ =~ s/\/\*PERL_REGISTER_SPAWNS\*\//@spawns/;
 	}
 
-	open( WFILE, '>', $output_dir . '/InitEntities.java' );
+	open( WFILE, '>', 'generated/java/registry/InitEntities.java' );
 	print WFILE @mapped_file;
 	close( WFILE );
 }# }}}
@@ -84,7 +87,7 @@ sub generateLayers {# {{{
 	my $IMPORT = 'import net.kjentytek303.additional_transfurs.client.renderer.model.PERL_MODEL_NAME;';
 	my $ROBJECT = '		event.registerLayerDefinition(PERL_MODEL_NAME.LAYER_LOCATION, PERL_MODEL_NAME::createBodyLayer);';
 
-	open(my $RFILE, '<', 'data/java/registry/InitLayerDefinitions.java') or die "GReG: Couldn't open entity registry file: $!. Aborted";
+	open(my $RFILE, '<', 'tmp/java/registry/InitLayerDefinitions.java') or die "GReG: Couldn't open LayerDefinition registry file: $!. Aborted";
 	my @mapped_file = <$RFILE>;
 	close($RFILE);
 
@@ -122,14 +125,12 @@ sub generateLayers {# {{{
 }# }}}
 
 sub generateRenderers {# {{{
-	my $IMPORT = 'import net.kjentytek303.additional_transfurs.client.renderer.PERL_RENDERER_NAME;';
 	my $ROBJECT = '		registerHumanoid(event, InitEntities.PERL_CAPITALIZED_NAME.get(), PERL_RENDERER_NAME::new);';
 
-	open(my $RFILE, '<', 'data/java/registry/InitRenderers.java') or die "GReG: Couldn't open entity registry file: $!. Aborted";
+	open(my $RFILE, '<', 'tmp/java/registry/InitRenderers.java') or die "GReG: Couldn't open EntityRenderer registry file: $!. Aborted";
 	my @mapped_file = <$RFILE>;
 	close($RFILE);
 
-	my @imports = (); 
 	my @robjects = ();
 	foreach (@_) {
 		my $variant_name = $_;
@@ -141,15 +142,11 @@ sub generateRenderers {# {{{
 
 		my $renderer_name = $variant_name . 'Renderer';
 
-		my $import = $IMPORT;
-		$import =~ s/PERL_RENDERER_NAME/$renderer_name/g;
-
 		my $robject = $ROBJECT;
 
 		$robject =~ s/PERL_CAPITALIZED_NAME/$variant_capitalized_name/g;
 		$robject =~ s/PERL_RENDERER_NAME/$renderer_name/g;
 
-		push( @imports, $import );
 		push( @robjects, $robject );
 	}
 
@@ -157,12 +154,7 @@ sub generateRenderers {# {{{
 		$_ = $_ . "\n";
 	}
 
-	foreach (@imports) {
-		$_ = $_ . "\n";
-	}
-
 	foreach (@mapped_file) {
-		$_ =~ s/\/\*PERL_RENDERER_IMPORTS\*\//@imports/;
 		$_ =~ s/\/\*PERL_RENDERERS\*\//@robjects/;
 	}
 
@@ -172,14 +164,12 @@ sub generateRenderers {# {{{
 }# }}}
 
 sub generateTransfurs {# {{{
-	my $IMPORT = "import net.kjentytek303.additional_transfurs.entity.*;\n import net.kjentytek303.additional_transfurs.entity.generated.*;";
 	my $ROBJECT = '	public static final RegistryObject<TransfurVariant<PERL_ENTITY_NAME>> PERL_CAPITALIZED_ENTITY_NAME_VARIANT= TF_REGISTRY.register("PERL_LOWERCASE_NAME", PERL_ENTITY_NAME::getTFInitBuilder);';
 
-	open(my $RFILE, '<', 'data/java/registry/InitTransfurs.java') or die "GReG: Couldn't open entity registry file: $!. Aborted";
+	open(my $RFILE, '<', 'tmp/java/registry/InitTransfurs.java') or die "GReG: Couldn't open TransfurVariant registry file: $!. Aborted";
 	my @mapped_file = <$RFILE>;
 	close($RFILE);
 
-	my @imports = (); 
 	my @robjects = ();
 	foreach (@_) {
 		my $variant_name = $_;
@@ -192,7 +182,6 @@ sub generateTransfurs {# {{{
 		my $variant_lowercase_name = $variant_capitalized_name;
 		$variant_lowercase_name =~ tr/[A-Z]/[a-z]/;
 
-		$IMPORT =~ s/PERL_ENTITY_NAME/$variant_name/;
 		my $robject = $ROBJECT;
 
 		$robject =~ s/PERL_ENTITY_NAME/$variant_name/g;
@@ -207,7 +196,6 @@ sub generateTransfurs {# {{{
 	}
 
 	foreach (@mapped_file) {
-		$_ =~ s/\/\*PERL_ENTITY_IMPORTS\*\//$IMPORT/;
 		$_ =~ s/\/\*PERL_TRANSFURS\*\//@robjects/;
 	}
 

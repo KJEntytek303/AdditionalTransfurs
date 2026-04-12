@@ -51,7 +51,7 @@ and
 directories. This is important, because many programs output into these directories, and they must be created before most programs are runned. This is also the time when generated/java/* directories are created.
 
 .P
-Next, autocopy begins variant generation. It starts by declaring an error control variable, but in place for safety, as most tools generate empty file on error. The first tool that is ran is
+Next, autocopy begins variant generation. It starts by declaring an error control variable, put in place for safety, as most tools generate empty file on error. The first tool that is ran is
 .B vkstg.pl(1)
 transfur validator, which output is stored to
 .I tmp/vkstg.tmp.
@@ -71,10 +71,16 @@ variant list, that is
 
 .P
 Once all transfurs have been processed,
-.gtmpg.pl(1)
-is called. It's job is to generate all tag-like related entries from the
+.B gtmpg.pl(1)
+and
+.B jgen.pl(1)
+are called.
+.B gtmpg.pl(1)'s
+job is to generate all tag-like related entries from the
 .I tmp/data/
-directory, converting them into .json format accepted by minecraft datapacks.
+directory, converting them into .json format accepted by minecraft datapacks, and
+.B jgen.pl(1)
+generates all the required asset files, such as spawn egg models and language entries.
 
 .P
 Next, the 
@@ -90,18 +96,18 @@ Lastly, if everything succeeded, generated files are copied over to their respec
 
 .I ./src/main/java/<package_name>/init/
 for registries.
-
+.br
 .I ./src/main/java/<package_name>/entity/generated/
 for transfur variants.
-
+.br
 .I ./src/main/java/<package_name>/client/renderer/generated/
 for renderers.
-
+.br
 .I ./src/main/resources/data/
 for data files.
-
+.br
 .I ./src/main/resources/assets/
 for asset files.
-
+.br
 .PP
 Then autocopy exists returning $errored variable to the OS, optionally printing an error message.

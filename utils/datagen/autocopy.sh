@@ -10,7 +10,7 @@ cp -R data/* tmp/
 find tmp -type f > tmp/cache
 find data/data -type d | sed -e "s/^data/generated/" | xargs mkdir
 find data/assets -type d | sed -e "s/^data/generated/" | xargs mkdir
-mkdir -p generated/java/renderers generated/java/registries generated/java/transfurs/
+mkdir -p generated/java/renderers generated/java/registry generated/java/transfurs/
 
 #Run Validator and cache results.
 #Fire Transfur generator which might append stuff to GTMPG and GREG, as well as generate additional data and asset files.
@@ -48,7 +48,7 @@ done
 if [[ $errored != 0 ]]; then
 	echo "autocopy.sh: Error: Assembly failed." >&2
 else
-	cp -R ./generated/java/registries/* ../../src/main/java/net/kjentytek303/additional_transfurs/init/
+	cp -R ./generated/java/registry/* ../../src/main/java/net/kjentytek303/additional_transfurs/init/
 	cp -R ./generated/java/transfurs/* ../../src/main/java/net/kjentytek303/additional_transfurs/entity/generated/
 	cp -R ./generated/java/renderers/* ../../src/main/java/net/kjentytek303/additional_transfurs/client/renderer/generated/
 	cp -R ./generated/data/* ../../src/main/resources/data/

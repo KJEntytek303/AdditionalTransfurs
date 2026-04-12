@@ -2,7 +2,9 @@ package net.kjentytek303.additional_transfurs.init;
 
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
 
- /*PERL_ENTITY_IMPORTS*/
+import net.kjentytek303.additional_transfurs.entity.*;
+import net.kjentytek303.additional_transfurs.entity.generated.*;
+
 import net.ltxprogrammer.changed.entity.variant.GenderedPair;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.ChangedRegistry;
@@ -16,4 +18,6 @@ public class InitTransfurs
 	public static DeferredRegister<TransfurVariant<?>> TF_REGISTRY = ChangedRegistry.TRANSFUR_VARIANT.createDeferred(AdditionalTransfurs.MODID);
 	
 /*PERL_TRANSFURS*/
+
+/*PERL_GENDERED*/
 }

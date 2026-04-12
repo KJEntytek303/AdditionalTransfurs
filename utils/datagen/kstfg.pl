@@ -50,6 +50,7 @@ my $spawn_heightmap="MOTION_BLOCKING_NO_LEAVES";
 my $latex_type="";
 my $riding_offset='';
 my $builder='EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F)';
+my $gender = "";
 
 #}}}
 
@@ -116,6 +117,7 @@ $mode ='ARRAY';
 		if ( $_ =~ /^LATEX_TYPE=(NONE|WHITE_LATEX|DARK_LATEX)/ ) { $latex_type = $1; }
 		if ( $_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA|null)/ ) { $spawn_placement = $1; }
 		if ( $_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING|MOTION_BLOCKING_NO_LEAVES|null)/ ) { $spawn_heightmap = $1; }
+		if ( $_ =~ /^GENDER=(MALE|FEMALE)/ ) { $gender = $1; next; }
 		if ( $_ =~ /^BUILDER=(.+)/ ) { $builder = $1; }
 
 		next;
@@ -220,6 +222,8 @@ $freezing_ticks = ( $freezing_ticks eq "" ) ? "" : "\@Override\n\tpublic int get
 $breathing_mode = ( $breathing_mode eq "" ) ? "" : ".breatheMode(TransfurVariant.BreatheMode.$breathing_mode)";
 if ($powder_snow_walkable eq "true" ) { push ( @implements, "PowderSnowWalkable" ); }
 $latex_type = ( $latex_type eq "" ) ? "" : "public LatexType getLatexType() { return ChangedLatexTypes.$latex_type.get(); }";
+if ( $gender ) { push( @implements, "GenderedEntity" ); }
+my $gender_overrides = ( $gender ) ? "\@Override\n\tpublic Gender getGender() { return Gender.$gender; }" : "";
 
 my $centaur_overrides = ( $entity_shape ne "TAUR" ) ? '' : '@Override
 	public boolean isSaddleable() { return false; }
@@ -330,6 +334,7 @@ foreach ( @mapped_file ) {
 	$_ =~ s/\/\*PERL_CLIMBING_OVERRIDE\*\//$climb_override/;
 	$_ =~ s/\/\*PERL_LEGLESS_OVERRIDE\*\//$legless_overrides/;
 	$_ =~ s/\/\*PERL_CENTAUR_OVERRIDE\*\//$centaur_overrides/;
+	$_ =~ s/\/\*PERL_GENDER\*\//$gender_overrides/;
 }
 
 

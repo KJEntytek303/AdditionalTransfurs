@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 #GenG - Gendered Generator
-#Warning: Shell tainted script.
-#This is the only script from KSTfG toolset that is supposed to run before VKSTG.
 
 use strict;
 use warnings;

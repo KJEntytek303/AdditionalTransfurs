@@ -15,9 +15,14 @@ geng.pl is a small program to automatically generate gendered variants for other
 .P
 geng.pl requires a strict directory structure due to some names being hardcoded. Consult
 .B directory-structure(5)
-for more info. In short, geng duplicates existing variant files and appends a "Male/Female" string to their name.
-
-.B WARNING: DESPITE GENG BEING MOSTLY WRITTEN IN PERL, IT'S TAINTED WITH SHELL COMMANDS, MEANING IT DOESN'T HAVE TO WORK PROPERLY ON WINDOWS.
+for more info. In short, geng duplicates existing variant files and appends a "Male/Female" string to their name, appending the line
+.B GENDER=MALE/FEMALE
+to the variant's klof, as well as registering a gendered pair inside
+.B greg(1)'s
+.I tmp/java/registry/InitTransfurs.java
+registry file, by expanding
+.I ./*PERL_GENDERED*/
+string into it's list 
 
 .P
 At first, geng evaluates files inside
@@ -28,11 +33,40 @@ directory.
 During this operation, geng reads through the
 .B klof(5)
 files, searching for
-.RB 'GENDERED=true'
+.B GENDERED=true
 string. If that string is not found, geng doesn't do anything. Otherwise, it starts it's work. Note: Due to order
 .B autocopy.sh(1)
 executes commands, geng is runned before preset expansion, hence putting GENDERED=true in presets is largely pointless without editing
 .B autocopy.sh(1)
 first.
 
+If the string
+.RB GENDERED=true
+is found, GenG immediately begins generation.
 
+GenG begins it's generation by duplicating the original klof and appending strings
+.B Male
+and
+.B Female
+before file extension, and deleting the original file.
+Then, GenG appends a
+.B GENDER=
+scalar to each file, with their respective gender.
+
+Up next is a small edit of the
+.B greg.pl(1)'s
+Transfur variant registry file.
+GenG begins by figuring out the variant names with uppercase only letters, and a possible, unique (but not always correct) name for variant pair, such as "DARK_LATEX_WOLFS", instead of a correct "DARK_LATEX_WOLVES".
+This is a minor bug and will not be fixed.
+
+Next, GenG uses that data to generate a valid registration call to
+.I registerPair
+method, defined inside 
+.RB net.ltxprogrammer.changed.init.ChangedTransfurVariants.Gendered
+static class, and pushes the saved line to a buffer.
+
+Finally, once all files have been checked, GenG opens a
+.I tmp/java/registry/InitTransfurs.java
+file, and replaces
+.B /*PERL_GENDERED*/
+string with it's internal buffer, saved in previous step.

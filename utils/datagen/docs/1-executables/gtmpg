@@ -1,0 +1,69 @@
+.TH GTMPG "1"
+
+.SH NAME
+.B gtmpg.pl
+- General Purpose Minecraft Tag Generator.
+
+.SH SYNOPSIS
+\&./gtmpg.pl [OPTION]
+
+.SH DESCRIPTION
+GTMPG, sometimes jokingly referred to as GregTech Masochist's Perl Generator is a
+.B slof(5)
+macro processor, originally developed for the purpose of automating converting minecraft tags saved in .slof format to a much more overcomplicated .json format.
+However, after some small modifications it proved versitile for generating other json files too, as long as they could be mostly expressed as a simple array and a template file.
+
+.RS 4
+.B OPTIONS:
+
+.B -t TEMPLATE_FILE
+- use
+.B TEMPLATE_FILE
+as a template to replace. Defaults to tmp/tag.json.template if not specified.
+.br
+.B -e INPUT_EXTENSION
+- search for files ending with
+.B INPUT_EXTENSION.
+.RE
+
+.SH FILES OWNED BY GTMPG
+.I tmp/cache
+as directory tree structure.
+.br
+.I tmp/data/data/*.mctag
+.br
+.I tmp/data/*.cacsh
+
+And others.
+
+.SH HOW GTMPG WORKS
+GTMPG begins by scanning a
+.I tmp/cache
+file, to discover the directory structure of ./tmp/ directory. It immediately prepares equivalent paths for ./generated/ directory as needed.
+Specifically: it looks for files with the extensions specified by '-e' option, by default '.mctag'.
+
+Next, GTMPG iterates through each slof file it found in the generated cache, and checks if the file is valid.
+.RS 4
+
+First it checks if a line is blank or a comment. If it is, it immediately skips it.
+
+If it's not a comment, GTMPG checks if the entry is a valid minecraft ID or minecraft tag id, optionally with a word 'false' after whitespace. For example:
+
+.B minecraft:apple false
+.br
+.B minecraft:stick
+
+are valid GTMPG entries.
+The first one will also add the
+.I required: false
+line to the generated tag. What this line does should be obvious to anyone familiar with datapacks.
+
+If an entry is invalid, GTMPG will halt further generation, and will instead just print error messages.
+
+.RE
+
+If all entries are valid, GTMPG will write a generated file to a previously prepared path with a proper extension
+
+
+.SH BUGS
+GTMPG will default to .json output file extension, instead of taking an input from ARGV.

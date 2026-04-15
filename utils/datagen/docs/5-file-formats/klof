@@ -6,7 +6,9 @@
 
 .SH DESCRIPTION
 
-Klof is a line oriented format for simple data files. It supports scallars and arrays. Klof data format doesn't keep track about the exact data type it holds, such as int, string, float, etc.
+Klof is a line oriented format for simple data files.
+It supports scallars and arrays.
+Klof data format doesn't keep track about the exact data type it holds, such as int, string, float, etc.
 This is the job of an interpreter that may or may not enforce strict data types and throw an error when this is not met.
 This decision was made to simplify the format, as well as for compatibility reasons,
 as all data in klof format is a string of text, and converted to a correct type at runtime by the interpreter.
@@ -14,12 +16,14 @@ This is to allow simple, general-purpose tools such as
 .B grep(1)
 and
 .B sed(1)
-to read from and write to the klof file without issues.
+to read from and write to klof files without issues.
 This is not so easy when you consider JSON syntax and it's usage of commas.
 It makes sense in a human-readable format, but klof wasn't designed to be primarily written by humans,
 but by programs such as 
 .B sed(1).
-However, klof still tries to be as human readable as possible, without sacrificing it's simplicity and line-oriented nature.
+Klof doesn't support nested arrays and complex objects, as it wasn't it's goal.
+If you need that, then JSON, XML or other formats might be more suitable.
+However, it still tries to be as human readable as possible, without sacrificing it's simplicity and line-oriented nature.
 
 .SH SYNTAX
 
@@ -50,14 +54,14 @@ Preceed it with a backslash in order to do so.
 
 .P
 .B 3. Arrays
-.RS 4
 
-Arrays in klof files are basically a 'mini
+Arrays in klof files are basically 'mini
 .B slof(5)'
 files embedded directly inside of the klof file.
 
-Array variables are declared like this
+Array variables are declared like this:
 
+.RS 4
 .IB ARRAY_NAME=[
 .br
 .IB ENTRY
@@ -77,13 +81,24 @@ Array variables are declared like this
 .B ARRAY_NAME=[
 is the name of the array, followed by an equals sign and a left square bracket ('=[') and terminated with a newline character. It can contain only alphanumeric letters and underscores, and must not start with a digit.
 
+.B ARRAY_NAME+=[
+can be used to append to an array, instead of reassigning it. This was added because AT uses a lot of macro expansions to handle it's klofs.
+
 .B ENTRY 1, 2 ... N
 are entries inside of the array. They must obey the same rules as the
 .B slof(5)
 file format.
 
-An array is terminated with a single right square bracket (']') on a line. The line must not contain any whitespace before the array terminator.
+An array is terminated with a single right square bracket (']') on a line.
+The line must not contain any whitespace before the array terminator.
 In order to interprete the right square bracket literally, preceed it with a backslash.
 
-AT Transfur Generator Specific Extensions:
 
+.SH BUGS
+Most AT tools interprete
+.B ARRAY=[
+as APPEND, instead of REPLACE.
+Most AT tools throw an error when seeing
+.B ARRAY+=[
+keyword.
+This is due to most of these tools being older than the klof standard.

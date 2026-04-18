@@ -2,6 +2,6 @@
 	"type": "forge:add_spawns",
 	"biomes": "#minecraft:is_taiga",
 	"spawners": [
-		{ "type": "additional_transfurs:latex_fox", "weight": 15, "minCount": 1, "maxCount": 3 }
+		{ "type": "additional_transfurs:latex_fox", "weight": 5, "minCount": 1, "maxCount": 3 }
 	]
 }

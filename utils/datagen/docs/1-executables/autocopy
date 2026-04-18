@@ -10,6 +10,26 @@
 .SH DESCRIPTION
 autocopy.sh is an automation script, allowing for easy, one-command way of executing a chain of repetitive commands, required to generate transfur variants and all related files.
 
+.B Files owned by autocopy.sh:
+.RS 4
+.I ./generated/
+.br
+.I ./generated/java/renderers/
+.br
+.I ./generated/java/registry/
+.br
+.I ./generated/java/transfurs/
+.br
+.I ./tmp/
+.br
+.I ./tmp/cache
+.br
+.I ./tmp/vkstg.tmp
+
+.RE
+
+
+
 .SH HOW AUTOCOPY WORKS
 .P
 autocopy.sh requires a strict directory structure due to some names being hardcoded. Consult

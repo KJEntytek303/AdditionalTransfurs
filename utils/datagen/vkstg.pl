@@ -3,7 +3,7 @@
 #WARNING: Shell Tainted script.
 
 use strict;
-#use warnings; #ENABLE ONLY DURING TESTING, generally keep it disabled on production.
+use warnings;
 
 if( $^O ne "linux" && $^O ne "darwin" ) {
 	print STDERR "Warning: Shell tainted script.\n";
@@ -215,7 +215,7 @@ if ( $errored ) { die 'Errors occurred, compilation aborted'; }
 
 print @mapped_file;
 
-sub resolveDependencies() {
+sub resolveDependencies {
 	#Inject the file at the beginning.
 	my @tmp;
 	

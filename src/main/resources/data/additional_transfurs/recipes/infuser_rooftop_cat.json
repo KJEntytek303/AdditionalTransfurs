@@ -1,0 +1,12 @@
+{
+  "type": "changed:infuser",
+  "ingredients": [
+    {"item": "changed:latex_base"},
+    {"item": "minecraft:rotten_flesh"},
+    {"item": "minecraft:bone"},
+    {"item": "minecraft:string"},
+    {"item": "minecraft:iron_sword"},
+    {"item": "minecraft:oak_log"}
+  ],
+  "form": "additional_transfurs:rooftop_cat"
+}

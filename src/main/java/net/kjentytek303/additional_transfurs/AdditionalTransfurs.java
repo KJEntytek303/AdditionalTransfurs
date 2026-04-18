@@ -1,5 +1,6 @@
 package net.kjentytek303.additional_transfurs;
 
+import net.kjentytek303.additional_transfurs.init.InitAbilities;
 import net.kjentytek303.additional_transfurs.init.InitEntities;
 import net.kjentytek303.additional_transfurs.init.InitItems;
 import net.kjentytek303.additional_transfurs.init.InitTransfurs;
@@ -30,6 +31,7 @@ public class AdditionalTransfurs
         MinecraftForge.EVENT_BUS.register(this);
         
         InitItems.ITEM_REGISTRY.register(modEventBus);
+        InitAbilities.ABILITY_REGISTRY.register(modEventBus);
         InitEntities.ENTITY_REGISTRY.register(modEventBus);
 
         InitTransfurs.TF_REGISTRY.register(modEventBus);

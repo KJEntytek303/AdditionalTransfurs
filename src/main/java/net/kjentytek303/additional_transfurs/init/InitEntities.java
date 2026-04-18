@@ -3,9 +3,8 @@ package net.kjentytek303.additional_transfurs.init;
 import com.mojang.datafixers.util.Pair;
 
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
-
- import net.kjentytek303.additional_transfurs.entity.*;
- import net.kjentytek303.additional_transfurs.entity.generated.*;
+import net.kjentytek303.additional_transfurs.entity.*;
+import net.kjentytek303.additional_transfurs.entity.generated.*;
 
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 
@@ -36,6 +35,7 @@ public class InitEntities
 	public static final RegistryObject<EntityType<Avali>> AVALI = Avali.getEntityInitRObject(); 
  	public static final RegistryObject<EntityType<LatexFox>> LATEX_FOX = LatexFox.getEntityInitRObject(); 
  	public static final RegistryObject<EntityType<LatexPlantDragon>> LATEX_PLANT_DRAGON = LatexPlantDragon.getEntityInitRObject(); 
+ 	public static final RegistryObject<EntityType<RooftopCat>> ROOFTOP_CAT = RooftopCat.getEntityInitRObject(); 
 
 	
 	@SubscribeEvent
@@ -43,6 +43,7 @@ public class InitEntities
 		Avali.registerSpawns(event); 
  		LatexFox.registerSpawns(event); 
  		LatexPlantDragon.registerSpawns(event); 
+ 		RooftopCat.registerSpawns(event); 
 
 	}
 	

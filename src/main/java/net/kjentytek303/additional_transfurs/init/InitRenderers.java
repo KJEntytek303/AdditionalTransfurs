@@ -19,6 +19,7 @@ public class InitRenderers {
 		registerHumanoid(event, InitEntities.AVALI.get(), AvaliRenderer::new);
  		registerHumanoid(event, InitEntities.LATEX_FOX.get(), LatexFoxRenderer::new);
  		registerHumanoid(event, InitEntities.LATEX_PLANT_DRAGON.get(), LatexPlantDragonRenderer::new);
+ 		registerHumanoid(event, InitEntities.ROOFTOP_CAT.get(), RooftopCatRenderer::new);
 
 	}
 }

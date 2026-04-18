@@ -3,6 +3,7 @@ package net.kjentytek303.additional_transfurs.init;
  import net.kjentytek303.additional_transfurs.client.renderer.model.AvaliModel;
  import net.kjentytek303.additional_transfurs.client.renderer.model.LatexFoxModel;
  import net.kjentytek303.additional_transfurs.client.renderer.model.LatexPlantDragonModel;
+ import net.kjentytek303.additional_transfurs.client.renderer.model.RooftopCatModel;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -18,6 +19,7 @@ public class InitLayerDefinitions {
 		event.registerLayerDefinition(AvaliModel.LAYER_LOCATION, AvaliModel::createBodyLayer);
  		event.registerLayerDefinition(LatexFoxModel.LAYER_LOCATION, LatexFoxModel::createBodyLayer);
  		event.registerLayerDefinition(LatexPlantDragonModel.LAYER_LOCATION, LatexPlantDragonModel::createBodyLayer);
+ 		event.registerLayerDefinition(RooftopCatModel.LAYER_LOCATION, RooftopCatModel::createBodyLayer);
 
 	}
 }

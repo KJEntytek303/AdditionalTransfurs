@@ -59,7 +59,7 @@ foreach ( @IFILE ) {
 		} #}}}
 
 		if ( $_ =~ /^RENDERER_TEMPLATE=(.+)/ ) {
-			if( -f "data/java/renderers/$1.java" ) {
+			if( -f "data/java/renderers/$1" ) {
 				push ( @mapped_file, $_ );
 				next;
 			}

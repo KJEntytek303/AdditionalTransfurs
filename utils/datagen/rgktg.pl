@@ -48,7 +48,7 @@ foreach ( @mapped_file ) {
 			next;
 		}
 		if ( $_ =~ /^ENTITY_SHAPE=(TAUR|)/) { $centaur_stuff = $1; next; }
-		if ( $_ =~ /^RENDERER_TEMPLATE=(.+)/ ) { $renderer_template=$1; next; }
+		if ( $_ =~ /^RENDERER_TEMPLATE=(.+)/ ) { $renderer_template=$1; $renderer_template = "data/java/renderers/" . $renderer_template; next; }
 		if ( $_ =~ /^ARMOR_MODEL=(.+)/ ) { $armor_model=$1; next; }
 		if ( $_ =~ /^RENDERER_TYPE=(HUMANOID)/ ) { $renderer_type=$1;  } #UNUSED
 		if ( $_ =~ /^EYES_PRESENT=(true|false)/ ) { $eyes=$1 }

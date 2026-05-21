@@ -79,7 +79,7 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 		
 		if ( Heightmap.Types.PERL_SPAWN_HEIGHTMAP != null && SpawnPlacements.Type.PERL_SPAWN_PLACEMENT != null) { return; }
 		
-		event.register( PERL_CAPITALIZED_ENTITY_NAME.get(), SpawnPlacements.Type.PERL_SPAWN_PLACEMENT, Heightmap.Types.PERL_SPAWN_HEIGHTMAP, PERL_ENTITY_NAME::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
+		event.register( PERL_CAPITALIZED_ENTITY_NAME.get(), SpawnPlacements.Type.PERL_SPAWN_PLACEMENT, Heightmap.Types.PERL_SPAWN_HEIGHTMAP, PERL_ENTITY_NAME::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
 	}
 	
 	public PERL_ENTITY_NAME(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }

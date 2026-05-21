@@ -12,6 +12,11 @@ find data/data -type d | sed -e "s/^data/generated/" | xargs mkdir
 find data/assets -type d | sed -e "s/^data/generated/" | xargs mkdir
 mkdir -p generated/java/renderers generated/java/registry generated/java/transfurs/
 
+#Copy handcrafted files into generated/
+for i in $(cat < tmp/cache | grep -E "(\.json)(\.png)$") ; do
+  echo "$i" | tee >( echo "$(</dev/stdin)") | sed '$s/tmp/generated/' | xargs cp
+done
+
 #Run Validator and cache results.
 #Fire Transfur generator which might append stuff to GTMPG and GREG, as well as generate additional data and asset files.
 

@@ -1,0 +1,13 @@
+{
+ "ability.additional_transfurs.purring": "Mruczenie",
+
+ "entity.additional_transfurs.avali": "Avali",
+ "entity.additional_transfurs.latex_fox": "Latexowy lis",
+ "entity.additional_transfurs.latex_plant_dragon": "Latexowy smok roślinny",
+ "entity.additional_transfurs.rooftop_cat": "Dachowiec",
+
+ "item.additional_transfurs.avali_spawn_egg": "Jajko przywołujące avalego",
+ "item.additional_transfurs.latex_fox_spawn_egg": "Jajko przywołujące latexowego lisa",
+ "item.additional_transfurs.latex_plant_dragon_spawn_egg": "Jajko przywołujące latexowego smoka roślinnego",
+ "item.additional_transfurs.rooftop_cat_spawn_egg": "Jajko przywołujące dachowca"
+}

@@ -44,7 +44,7 @@ for ( my $i=0; $i < scalar( @mapped_greg); $i++ ) {
 }';
 	close (EGGFILE);
 
-	push (@entity_entries,  'entity.additional_transfurs.' . $name_lowercase . ': "' . $name_spaced . "\"\n" ) ;
+	push (@entity_entries,  'entity.additional_transfurs.' . $name_lowercase . ': ' . $name_spaced . "\n" ) ;
 
 	#Generate Lang Entries for spawn eggs
 	if ( scalar( @spawn_egg_regex ) == 0 ) {
@@ -58,7 +58,7 @@ for ( my $i=0; $i < scalar( @mapped_greg); $i++ ) {
 	}
 	
 	
-	push ( @spawn_egg_entries, 'item.additional_transfurs.' . $name_lowercase . '_spawn_egg: "' . $spawn_egg_entry . "\"\n" );
+	push ( @spawn_egg_entries, 'item.additional_transfurs.' . $name_lowercase . '_spawn_egg: ' . $spawn_egg_entry . "\n" );
 }
 
 my @mapped_lang = ();

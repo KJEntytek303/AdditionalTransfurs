@@ -69,7 +69,8 @@ should_assemble=1
 
 assemble() {
 	cd utils/datagen
-	errored_assembly= ./autocopy.sh
+	./autocopy.sh
+	errored_assembly="$?"
 	cd ../..
 	return $errored_assembly
 }
@@ -78,12 +79,13 @@ i=1
 for arg in $@; do
 	case $arg in
 		assemble)
-			exit assemble
+			assemble
+			exit $?
 			;;
 		build)
 			if [[ $should_assemble ]]; then
-				errored_assembl=assemble
-				if [[ $errored_assembl ]]; then
+				assemble
+				if [[ $? -ne 0 ]]; then
 					exit 1;
 				fi
 			fi

@@ -13,8 +13,8 @@ find data/assets -type d | sed -e "s/^data/generated/" | xargs mkdir
 mkdir -p generated/java/renderers generated/java/registry generated/java/transfurs/
 
 #Copy handcrafted files into generated/
-for i in $(cat < tmp/cache | grep -E "(\.json)(\.png)$") ; do
-  echo "$i" | tee >( echo "$(</dev/stdin)") | sed '$s/tmp/generated/' | xargs cp
+for i in $( grep -E "((\.json)|(\.png))$" < tmp/cache ) ; do
+  echo "$i" | tee >( echo "$(</dev/stdin)") | sed '$s/^tmp/generated/' | sed 's/\n/ /' | xargs cp
 done
 
 #Run Validator and cache results.
@@ -48,7 +48,8 @@ done
 
 ./greg.pl < tmp/variants.greg
 
-./jgen.pl < data/assets/additional_transfurs/lang/en_us.lang | sed -e 's/ / "/' -e 's/:/":/' -e 's/"$/",/' -e 's/"json.terminator": "",/"json.terminator": ""/' -e '1i\{' -e '$a\}' > ./generated/assets/additional_transfurs/lang/en_us.json
+./jgen.pl < data/assets/additional_transfurs/lang/en_us.lang | \
+	sed -E -e 's/^ / "/' -e 's/:/":/' -e 's/: /: "/' -e 's/([^ ])$/&",/' -e 's/"json.terminator": "",/"json.terminator": ""/' -e '1i\{' -e '$a\}' > ./generated/assets/additional_transfurs/lang/en_us.json
 
 if [[ $errored != 0 ]]; then
 	echo "autocopy.sh: Error: Assembly failed." >&2

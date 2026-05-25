@@ -1,3 +1,5 @@
+ ability.additional_transfurs.purring: Purring
+
  PERL_ENTITIES
  PERL_SPAWN_EGGS
- json.terminator: ""
+ json.terminator: 

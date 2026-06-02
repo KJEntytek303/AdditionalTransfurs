@@ -20,6 +20,7 @@ public class InitTransfurs
 	public static final RegistryObject<TransfurVariant<Avali>> AVALI_VARIANT= TF_REGISTRY.register("avali", Avali::getTFInitBuilder);
  	public static final RegistryObject<TransfurVariant<LatexFox>> LATEX_FOX_VARIANT= TF_REGISTRY.register("latex_fox", LatexFox::getTFInitBuilder);
  	public static final RegistryObject<TransfurVariant<LatexPlantDragon>> LATEX_PLANT_DRAGON_VARIANT= TF_REGISTRY.register("latex_plant_dragon", LatexPlantDragon::getTFInitBuilder);
+ 	public static final RegistryObject<TransfurVariant<LatexRedTailCatfish>> LATEX_RED_TAIL_CATFISH_VARIANT= TF_REGISTRY.register("latex_red_tail_catfish", LatexRedTailCatfish::getTFInitBuilder);
  	public static final RegistryObject<TransfurVariant<RooftopCat>> ROOFTOP_CAT_VARIANT= TF_REGISTRY.register("rooftop_cat", RooftopCat::getTFInitBuilder);
 
 

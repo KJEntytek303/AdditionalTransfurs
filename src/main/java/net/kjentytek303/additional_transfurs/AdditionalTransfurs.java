@@ -1,6 +1,7 @@
 package net.kjentytek303.additional_transfurs;
 
 import net.kjentytek303.additional_transfurs.init.InitAbilities;
+import net.kjentytek303.additional_transfurs.init.InitCTTabs;
 import net.kjentytek303.additional_transfurs.init.InitEntities;
 import net.kjentytek303.additional_transfurs.init.InitItems;
 import net.kjentytek303.additional_transfurs.init.InitTransfurs;
@@ -35,6 +36,7 @@ public class AdditionalTransfurs
         InitEntities.ENTITY_REGISTRY.register(modEventBus);
 
         InitTransfurs.TF_REGISTRY.register(modEventBus);
+        InitCTTabs.CT_TAB_REGISTRY.register(modEventBus);
     }
     
     private void commonSetup(final FMLCommonSetupEvent event)

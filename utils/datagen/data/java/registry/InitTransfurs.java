@@ -15,7 +15,7 @@ import static net.ltxprogrammer.changed.init.ChangedTransfurVariants.Gendered.re
 
 public class InitTransfurs
 {
-	public static DeferredRegister<TransfurVariant<?>> TF_REGISTRY = ChangedRegistry.TRANSFUR_VARIANT.createDeferred(AdditionalTransfurs.MODID);
+	public static final DeferredRegister<TransfurVariant<?>> TF_REGISTRY = ChangedRegistry.TRANSFUR_VARIANT.createDeferred(AdditionalTransfurs.MODID);
 	
 /*PERL_TRANSFURS*/
 

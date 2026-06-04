@@ -15,7 +15,7 @@ import static net.ltxprogrammer.changed.init.ChangedTransfurVariants.Gendered.re
 
 public class InitTransfurs
 {
-	public static DeferredRegister<TransfurVariant<?>> TF_REGISTRY = ChangedRegistry.TRANSFUR_VARIANT.createDeferred(AdditionalTransfurs.MODID);
+	public static final DeferredRegister<TransfurVariant<?>> TF_REGISTRY = ChangedRegistry.TRANSFUR_VARIANT.createDeferred(AdditionalTransfurs.MODID);
 	
 	public static final RegistryObject<TransfurVariant<Avali>> AVALI_VARIANT= TF_REGISTRY.register("avali", Avali::getTFInitBuilder);
  	public static final RegistryObject<TransfurVariant<LatexFox>> LATEX_FOX_VARIANT= TF_REGISTRY.register("latex_fox", LatexFox::getTFInitBuilder);

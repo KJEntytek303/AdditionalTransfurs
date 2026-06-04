@@ -23,6 +23,10 @@ run
 
 # Files from Forge MDK
 forge*changelog.txt
+
+# Temporary stuff from AT GT
 /utils/datagen/cache
 /utils/datagen/generated/
 /utils/datagen/tmp/
+
+/libs/

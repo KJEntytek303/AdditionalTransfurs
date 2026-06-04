@@ -126,6 +126,10 @@ repositories {
         name = "Changed"
         url = "https://ltxprogrammer.github.io/maven/"
 	}
+
+    flatDir {
+      dirs 'libs'
+    }
 }
 
 dependencies {
@@ -145,6 +149,10 @@ dependencies {
 
     implementation fg.deobf("net.ltxprogrammer.changed:Changed-m1.20.1-f47.4.0:v0.15.4") {
         changing = true
+    }
+
+    implementation fg.deobf("net.foxyas.changedaddon:ChangedAddon-m1.20.1-2.8.2b-all:2.8.2b") {
+       changing = true
     }
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings

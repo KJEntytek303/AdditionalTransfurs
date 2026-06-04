@@ -1,0 +1,16 @@
+{
+	"type": "changed:infuser",
+	"ingredients": [
+		{"item": "changed:latex_base"},
+		{"item": "minecraft:sand"},
+		{"item": "minecraft:sand"},
+		{"item": "minecraft:seagrass"},
+		{"item": "minecraft:seagrass"},
+		{"item": "minecraft:seagrass"},
+		{"item": "minecraft:seagrass"},
+		{"item": "minecraft:raw_salmon"}
+
+	],
+	"form": "additional_transfurs:latex_red_tail_catfish"
+}
+

@@ -11,19 +11,23 @@ import net.ltxprogrammer.changed.util.Color3;
 import net.kjentytek303.additional_transfurs.utils.InitUtils;
 import net.kjentytek303.additional_transfurs.utils.Tags;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -58,23 +62,22 @@ public class LatexRedTailCatfish extends net.ltxprogrammer.changed.entity.beast.
 	
 	public static TransfurVariant<LatexRedTailCatfish> getTFInitBuilder()
 	{
-		return TransfurVariant.Builder
-			   .of(LATEX_RED_TAIL_CATFISH)
-			   .breatheMode(TransfurVariant.BreatheMode.ANY)
+		var builder = TransfurVariant.Builder.of(LATEX_RED_TAIL_CATFISH);
+			   builder.breatheMode(TransfurVariant.BreatheMode.ANY);
 			   
 			   
 			   
-			   .visionType(VisionType.NORMAL)
+			   builder.visionType(VisionType.NORMAL);
 			   
-			   .itemUseMode( UseItemMode.NORMAL )
+			   builder.itemUseMode( UseItemMode.NORMAL );
 
-			   .transfurMode(TransfurMode.REPLICATION)
-			   .addAbility(ChangedAbilities.SWITCH_TRANSFUR_MODE)
- 			   .addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY)
+			   builder.transfurMode(TransfurMode.REPLICATION);
+			   builder.addAbility(ChangedAbilities.SWITCH_TRANSFUR_MODE);
+ 			   builder.addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY);
 
 			   
 			   
-			   .build();
+			   return builder.build();
 	}
 	/*PERL_ABSTRACT_DELETE_END*/
 	
@@ -86,12 +89,16 @@ public class LatexRedTailCatfish extends net.ltxprogrammer.changed.entity.beast.
 	}
 	
 	public LatexRedTailCatfish(EntityType<? extends AbstractAquaticEntity> type, Level level) { super(type, level); }
-	
+
 	@Override
 	public TransfurMode getTransfurMode() {
 		return TransfurMode.REPLICATION;
 	}
-	
+
+	public static <T extends ChangedEntity> boolean checkEntitySpawnRules(EntityType<T> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
+       	return AbstractAquaticEntity.checkEntitySpawnRules(entityType, world, reason, pos, random);
+    }
+
 	
 	
 	@Override

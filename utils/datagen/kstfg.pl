@@ -116,7 +116,7 @@ $mode ='ARRAY';
 		if ( $_ =~ /^ABILITY_COLOR_2ND=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_front = $1; }
 		if ( $_ =~ /^LATEX_TYPE=(NONE|WHITE_LATEX|DARK_LATEX)/ ) { $latex_type = $1; }
 		if ( $_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA|null)/ ) { $spawn_placement = $1; }
-		if ( $_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING|MOTION_BLOCKING_NO_LEAVES|null)/ ) { $spawn_heightmap = $1; }
+		if ( $_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING_NO_LEAVES|MOTION_BLOCKING|null)/ ) { $spawn_heightmap = $1; }
 		if ( $_ =~ /^GENDER=(MALE|FEMALE)/ ) { $gender = $1; next; }
 		if ( $_ =~ /^BUILDER=(.+)/ ) { $builder = $1; }
 
@@ -182,16 +182,15 @@ $mode ='ARRAY';
 die 'KSTfG: Errors occurred, compilation aborted' if $errored;
 
 #main
-if ( $extend eq '' ) { print STDERR "KSTfG: Warning: Extend empty, defaulting to ChangedEntity\n"; $extend = "ChangedEntity"; }
 
 #Ternary operator spam
-$transfur_sound = ( $transfur_sound eq '' ) ? '' : ".sound( $transfur_sound.getId() )";
-$mining_speed = ( $mining_speed eq "" ) ? "" : ".miningStrength( MiningStrength.$mining_speed )";
-$use_item_mode = ( $use_item_mode eq "" ) ? "" : ".itemUseMode( UseItemMode.$use_item_mode )";
-$fly = ( $fly eq "" ) ? "" : ( $fly eq "NONE" ) ? ".glide(false)" : ".glide(true)";
-$jumps = ($jumps eq '' ) ? "" : ".extraJumps($jumps)";
-$vision = ( $vision eq "" ) ? "" : ".visionType(VisionType.$vision)";
-$climb = ( $climb eq "false" ) ? "" : ".climb()";
+$transfur_sound = ( $transfur_sound eq '' ) ? '' : "builder.sound( $transfur_sound.getId() );";
+$mining_speed = ( $mining_speed eq "" ) ? "" : "builder.miningStrength( MiningStrength.$mining_speed );";
+$use_item_mode = ( $use_item_mode eq "" ) ? "" : "builder.itemUseMode( UseItemMode.$use_item_mode );";
+$fly = ( $fly eq "" ) ? "" : ( $fly eq "NONE" ) ? "builder.glide(false);" : "builder.glide(true);";
+$jumps = ($jumps eq '' ) ? "" : "builder.extraJumps($jumps);";
+$vision = ( $vision eq "" ) ? "" : "builder.visionType(VisionType.$vision);";
+$climb = ( $climb eq "false" ) ? "" : "builder.climb();";
 my $climb_override = ( $climb eq "" ) ? "" : "\tprivate static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(" . $name . ".class, EntityDataSerializers.BYTE);
 protected void defineSynchedData() {
 		super.defineSynchedData();
@@ -217,9 +216,9 @@ protected void defineSynchedData() {
 		if (!p_33796_.is(Blocks.COBWEB)) { super.makeStuckInBlock(p_33796_, p_33797_); }
 	}\n";
 
-$z_offset = ( $z_offset eq "" ) ? "" : ".cameraZOffset($z_offset)";
+$z_offset = ( $z_offset eq "" ) ? "" : "builder.cameraZOffset($z_offset);";
 $freezing_ticks = ( $freezing_ticks eq "" ) ? "" : "\@Override\n\tpublic int getTicksRequiredToFreeze() { return $freezing_ticks; }";
-$breathing_mode = ( $breathing_mode eq "" ) ? "" : ".breatheMode(TransfurVariant.BreatheMode.$breathing_mode)";
+$breathing_mode = ( $breathing_mode eq "" ) ? "" : "builder.breatheMode(TransfurVariant.BreatheMode.$breathing_mode);";
 if ($powder_snow_walkable eq "true" ) { push ( @implements, "PowderSnowWalkable" ); }
 $latex_type = ( $latex_type eq "" ) ? "" : "public LatexType getLatexType() { return ChangedLatexTypes.$latex_type.get(); }";
 if ( $gender ) { push( @implements, "GenderedEntity" ); }
@@ -256,17 +255,17 @@ my $legless_overrides = ( $entity_shape ne 'MER' && $entity_shape ne 'NAGA' ) ? 
 		return super.isVisuallySwimming();
 	}';
 
-my $transfur_mode_builder = ".transfurMode(TransfurMode.$transfur_mode)";
+my $transfur_mode_builder = "builder.transfurMode(TransfurMode.$transfur_mode);";
 $transfur_color = ( $transfur_color eq "" ) ? "" : "public Color3 getTransfurColor(TransfurCause cause) { return Color3.fromInt($transfur_color); }";
 $entity_shape = ( $entity_shape eq "" ) ? "" : '@Override' . "\n\tpublic getEntityShape() { return EntityShape.$entity_shape; }";
 
 #prepare arrays{{{
 foreach( @abilities ) {
-	$_ = "\t\t\t   .addAbility(" . $_ . ")\n";
+	$_ = "\t\t\t   builder.addAbility(" . $_ . ");\n";
 }
 
 foreach ( @scares ) {
-	$_ = "\t\t\t   .scares(" . $_ . ".class)\n";
+	$_ = "\t\t\t   builder.scares(" . $_ . ".class);\n";
 }
 
 foreach ( @attributes ) {

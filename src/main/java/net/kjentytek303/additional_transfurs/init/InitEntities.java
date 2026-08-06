@@ -34,6 +34,7 @@ public class InitEntities
 
 	public static final RegistryObject<EntityType<Avali>> AVALI = Avali.getEntityInitRObject(); 
  	public static final RegistryObject<EntityType<LatexFox>> LATEX_FOX = LatexFox.getEntityInitRObject(); 
+ 	public static final RegistryObject<EntityType<LatexPenguin>> LATEX_PENGUIN = LatexPenguin.getEntityInitRObject(); 
  	public static final RegistryObject<EntityType<LatexPlantDragon>> LATEX_PLANT_DRAGON = LatexPlantDragon.getEntityInitRObject(); 
  	public static final RegistryObject<EntityType<LatexRedTailCatfish>> LATEX_RED_TAIL_CATFISH = LatexRedTailCatfish.getEntityInitRObject(); 
  	public static final RegistryObject<EntityType<RooftopCat>> ROOFTOP_CAT = RooftopCat.getEntityInitRObject(); 
@@ -43,6 +44,7 @@ public class InitEntities
 	public static void registerSpawns(SpawnPlacementRegisterEvent event) {
 		Avali.registerSpawns(event); 
  		LatexFox.registerSpawns(event); 
+ 		LatexPenguin.registerSpawns(event); 
  		LatexPlantDragon.registerSpawns(event); 
  		LatexRedTailCatfish.registerSpawns(event); 
  		RooftopCat.registerSpawns(event); 

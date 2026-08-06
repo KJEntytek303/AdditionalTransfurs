@@ -1,13 +1,13 @@
-PRESETS=[
+presets=[
 shark
 latex
 ]
 
-TRANSFUR_COLOR=0x191e1a
-ABILITY_COLOR_1ST=0x191e1a
-ABILITY_COLOR_2ND=0x0d110e
+transfurColor=0x191e1a
+abilityColor_1=0x191e1a
+abilityColor_2=0x0d110e
 
-ARMOR_MODEL=ArmorLatexMaleSharkModel.MODEL_SET
-EYES_PRESENT=true
-GAS_MASK_LAYER=GasMaskLayer.forLargeSnouted
-ACCESSORIES=humanoids.cacsh
+armorModel=ArmorLatexMaleSharkModel.MODEL_SET
+eyes_present=true
+gasMaskLayer=GasMaskLayer.forLargeSnouted
+accessories=humanoids.cacsh

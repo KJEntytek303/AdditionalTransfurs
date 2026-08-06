@@ -84,12 +84,10 @@ public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 	
 	public static void registerSpawns(SpawnPlacementRegisterEvent event) {
 		
-		if ( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
-		
 		event.register( LATEX_FOX.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexFox::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
 	}
 	
-	public LatexFox(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
+	public LatexFox(EntityType<? extends ChangedEntity > type, Level level) { super(type, level); }
 
 	public static <T extends ChangedEntity> boolean checkEntitySpawnRules(EntityType<T> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
     	return ChangedEntity.checkEntitySpawnRules(entityType, world, reason, pos, random);

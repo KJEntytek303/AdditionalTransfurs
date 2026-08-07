@@ -1,8 +1,8 @@
-BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F)
-VISION=NIGHT_VISION
-TICKS_TO_FREEZE=400
+builder=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F)
+vision=NIGHT_VISION
+ticksToFreeze=400
 
-ATTRIBUTES=[
+attributes=[
 Attributes.MOVEMENT_SPEED:1.1
 ForgeMod.SWIM_SPEED.get():0.93
 ChangedAttributes.SNEAK_SPEED.get():1.5

@@ -1,0 +1,16 @@
+presets=[
+latex
+shark
+]
+
+;BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.8F, 1.83F)
+
+transfurColor=0x040404
+abilityColor_1=0x040404
+abilityColor_2=0xf3f3f3
+
+armorModel=ArmorHumanModel.MODEL_SET
+eyes_present=true
+
+accessories=humanoids.cacsh
+

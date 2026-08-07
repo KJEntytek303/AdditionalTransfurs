@@ -47,21 +47,21 @@ foreach ( @mapped_file ) {
 			#There are no array-type vars in renderers - skip array.
 			next;
 		}
-		if ( $_ =~ /^ENTITY_SHAPE=(TAUR|)/) { $centaur_stuff = $1; next; }
-		if ( $_ =~ /^RENDERER_TEMPLATE=(.+)/ ) { $renderer_template=$1; $renderer_template = "data/java/renderers/" . $renderer_template; next; }
-		if ( $_ =~ /^ARMOR_MODEL=(.+)/ ) { $armor_model=$1; next; }
-		if ( $_ =~ /^RENDERER_TYPE=(HUMANOID)/ ) { $renderer_type=$1;  } #UNUSED
-		if ( $_ =~ /^EYES_PRESENT=(true|false)/ ) { $eyes=$1 }
-		if ( $_ =~ /^MULTIHANDED_RENDERER=(true|false)/ ) { $multihanded=$1; }
-		if ( $_ =~ /^IRIS_1ST_COLOR=((0x[0-9a-fA-F]{1,6})\h*(dl|)|)/ ) { $forced_iris1 = ( $1 ) ? $2 . $3 : ""; }
-		if ( $_ =~ /^IRIS_2ND=((0x[0-9a-fA-F]{1,6})\h*(dl|)|)/ ) { $forced_iris2 = ( $1 ) ? $2 . $3 : ""; }
-		if ( $_ =~ /^SCLERA_COLOR=((0x[0-9a-fA-F]{1,6})|)/ ) { $forced_sclera = ( $1 ) ? $2 : ""; }
-		if ( $_ =~ /^GAS_MASK_LAYER=(.+)/ ) { $gas_mask_layer= $1;  }
-		if ( $_ =~ /^EMISSIVE_LAYER=(true|false)/ ) { $emissive=$1; }
-		if ( $_ =~ /^TRANSLUCENT_LAYER=(true|false)/ ) { $translucent=$1; }
-		if ( $_ =~ /^MODEL_SCALE=(\d+\.\d+)/ ) { $model_scale=$1; }
-		if ( $_ =~ /^IS_MASKED=(true|false)/ ) { $is_masked=$1; }
-		if ( $_ =~ /^SHADOW_SIZE=(\d+\.\d+)/ ) { $shadow_size=$1; }
+		if ( $_ =~ /^entityShape=(TAUR|)/) { $centaur_stuff = $1; next; }
+		if ( $_ =~ /^rendererTemplate=(.+)/ ) { $renderer_template=$1; $renderer_template = "data/java/renderers/" . $renderer_template; next; }
+		if ( $_ =~ /^armorModel=(.+)/ ) { $armor_model=$1; next; }
+		if ( $_ =~ /^rendererType=(HUMANOID)/ ) { $renderer_type=$1;  } #UNUSED
+		if ( $_ =~ /^eyes_present=(true|false)/ ) { $eyes=$1 }
+		if ( $_ =~ /^multihandedRenderer=(true|false)/ ) { $multihanded=$1; }
+		if ( $_ =~ /^eyes_iris_1_color=((0x[0-9a-fA-F]{1,6})\h*(dl|)|)/ ) { $forced_iris1 = ( $1 ) ? $2 . $3 : ""; }
+		if ( $_ =~ /^eyes_iris_2_color=((0x[0-9a-fA-F]{1,6})\h*(dl|)|)/ ) { $forced_iris2 = ( $1 ) ? $2 . $3 : ""; }
+		if ( $_ =~ /^eyes_sclera_color=((0x[0-9a-fA-F]{1,6})|)/ ) { $forced_sclera = ( $1 ) ? $2 : ""; }
+		if ( $_ =~ /^gasMaskLayer=(.+)/ ) { $gas_mask_layer= $1;  }
+		if ( $_ =~ /^emissiveLayer=(true|false)/ ) { $emissive=$1; }
+		if ( $_ =~ /^translucentLayer=(true|false)/ ) { $translucent=$1; }
+		if ( $_ =~ /^modelScale=(\d+\.\d+)/ ) { $model_scale=$1; }
+		if ( $_ =~ /^isMasked=(true|false)/ ) { $is_masked=$1; }
+		if ( $_ =~ /^shadowSize=(\d+\.\d+)/ ) { $shadow_size=$1; }
 	}
 	if ( $mode eq 'array' ) {
 		if ( $_ =~ /^]/ ) { $mode = 'normal'; }

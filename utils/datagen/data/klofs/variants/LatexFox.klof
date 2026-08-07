@@ -1,17 +1,17 @@
-PRESETS=[
+presets=[
 fox
 latex
 ]
 
-TRANSFUR_COLOR=0xE37107
-ABILITY_COLOR_1ST=0xE37107
-ABILITY_COLOR_2ND=0x9E4F05
+transfurColor=0xE37107
+abilityColor_1=0xE37107
+abilityColor_2=0x9E4F05
 
-ABILITIES=[
+abilities=[
 ChangedAbilities.TOGGLE_NIGHT_VISION
 ]
 
-ARMOR_MODEL=ArmorLatexMaleWolfModel.MODEL_SET
-EYES_PRESENT=true
-GAS_MASK_LAYER=GasMaskLayer.forSnouted
-ACCESSORIES=humanoids.cacsh
+armorModel=ArmorLatexMaleWolfModel.MODEL_SET
+eyes_present=true
+gasMaskLayer=GasMaskLayer.forSnouted
+accessories=humanoids.cacsh

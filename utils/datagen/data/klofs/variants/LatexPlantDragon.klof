@@ -1,15 +1,15 @@
-PRESETS=[
+presets=[
 winged-dragon
 latex
 ]
 
-TEMPLATE=plant-derg
+template=plant-derg
 
-TRANSFUR_COLOR=0x213915
-ABILITY_COLOR_1ST=0x29441b
-ABILITY_COLOR_2ND=0x1c2f13
+transfurColor=0x213915
+abilityColor_1=0x29441b
+abilityColor_2=0x1c2f13
 
-ARMOR_MODEL=ArmorLatexMaleWingedDragonModel.MODEL_SET
-EYES_PRESENT=true
-GAS_MASK_LAYER=GasMaskLayer.forLargeSnouted
-ACCESSORIES=humanoids.cacsh
+armorModel=ArmorLatexMaleWingedDragonModel.MODEL_SET
+eyes_present=true
+gasMaskLayer=GasMaskLayer.forLargeSnouted
+accessories=humanoids.cacsh

@@ -1,8 +1,8 @@
-ABILITIES=[
+abilities=[
 ChangedAbilities.SWITCH_TRANSFUR_MODE
 ChangedAbilities.GRAB_ENTITY_ABILITY
 ]
 
-TAGS=[
+tags=[
 changed:latexes
 ]

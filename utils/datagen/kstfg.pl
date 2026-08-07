@@ -77,16 +77,16 @@ foreach ( @infile ) { #load config file
 
 	if ($mode eq 'NORMAL') { #{{{
 
-		if ( $_ =~ /^[A-Z_]+=\[\h*/ ) { #if array opening {{{
-$mode ='ARRAY';
-			goto loop_begin; #reevaluate as array.
+		if ( $_ =~ /^[a-zA-Z0-9_]+=\[\h*/ ) { #if array opening {{{
+			$mode ='ARRAY';
+			goto as_array; #reevaluate as array.
 		} # }}}
 
-		if ( $_ =~ /^TEMPLATE=(.+)/ ) { # {{{
+		if ( $_ =~ /^template=(.+)/ ) { # {{{
 			$template = "data/java/tf-templates/" . $1 . ".java.template";
 		} #}}}
 
-		if ( $_ =~ /^ACCESSORIES=(.+)/ ) {
+		if ( $_ =~ /^accessories=(.+)/ ) {
 			my $tmp = "tmp/data/additional_transfurs/accessories/entities/" . $1;
 			if ( -f $tmp ) {
 				open ( CACS_FILE, ">>", $tmp ) or die "KSTfG: Couldn't open file '$tmp': $!";
@@ -97,32 +97,33 @@ $mode ='ARRAY';
 			die "KSTfG: Assertion Failed: Accessory file innaccessible.";
 		}
 
-		if ( $_ =~ /^EXTEND=([.a-zA-Z0-9]+)\h*$/ ) { $extend = $1; }
-		if ( $_ =~ /^TRANSFUR_SOUND=(.+)\h*/ ) { $transfur_sound = $1; }
-		if ( $_ =~ /^TRANSFUR_MODE=(ABSORPTION|REPLICATION|NONE)\h*/ ) { $transfur_mode = $1; }
-		if ( $_ =~ /^MINING=(WEAK|NORMAL|STRONG)\h*/ ) { $mining_speed=$1; }
-		if ( $_ =~ /^ENTITY_SHAPE=(ANTHRO|FERAL|TAUR|NAGA|MER)\h*/ ) { $entity_shape = $1; }
-		if ( $_ =~ /^USE_ITEM_MODE=(NORMAL|MOUTH|NONE)\h*/ ) { $use_item_mode = $1; }
-		if ( $_ =~ /^FLY=(NONE|CT|ELYTRA|BOTH)\h*/ ) { $fly = $1; }
-		if ( $_ =~ /^JUMPS=(\d+)\h*/ ) { $jumps = $1; }
-		if ( $_ =~ /^VISION=(NORMAL|NIGHT_VISION|BLIND|REDUCED|VAVE_VISION)\h*/ ) { $vision = $1; }
-		if ( $_ =~ /^CLIMB=(true|false)\h*/ ) { $climb = $1; }
-		if ( $_ =~ /^Z_OFFSET=(\d+\.\d+)\h*/ ) { $z_offset = $1; }
-		if ( $_ =~ /^TICKS_TO_FREEZE=(\d+)\h*/ ) { $freezing_ticks = $1; }
-		if ( $_ =~ /^BREATH=(NORMAL|WATER|ANY|NONE)\h*/ ) { $breathing_mode = $1; }
-		if ( $_ =~ /^POWDER_SNOW_WALKABLE=(true|false)\h*/ ){ $powder_snow_walkable = $1; }
-		if ( $_ =~ /^TRANSFUR_COLOR=(0x[0-9a-fA-F]{,6})\h*/ ) { $transfur_color = $1; }
-		if ( $_ =~ /^ABILITY_COLOR_1ST=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_back = $1; }
-		if ( $_ =~ /^ABILITY_COLOR_2ND=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_front = $1; }
-		if ( $_ =~ /^LATEX_TYPE=(NONE|WHITE_LATEX|DARK_LATEX)/ ) { $latex_type = $1; }
-		if ( $_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA|null)/ ) { $spawn_placement = $1; }
-		if ( $_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING_NO_LEAVES|MOTION_BLOCKING|null)/ ) { $spawn_heightmap = $1; }
-		if ( $_ =~ /^GENDER=(MALE|FEMALE)/ ) { $gender = $1; next; }
-		if ( $_ =~ /^BUILDER=(.+)/ ) { $builder = $1; }
+		if ( $_ =~ /^extend=([.a-zA-Z0-9]+)\h*$/ ) { $extend = $1; }
+		if ( $_ =~ /^transfurSound=(.+)\h*/ ) { $transfur_sound = $1; }
+		if ( $_ =~ /^transfurMode=(ABSORPTION|REPLICATION|NONE)\h*/ ) { $transfur_mode = $1; }
+		if ( $_ =~ /^mining=(WEAK|NORMAL|STRONG)\h*/ ) { $mining_speed=$1; }
+		if ( $_ =~ /^entityShape=(ANTHRO|FERAL|TAUR|NAGA|MER)\h*/ ) { $entity_shape = $1; }
+		if ( $_ =~ /^itemUseMode=(NORMAL|MOUTH|NONE)\h*/ ) { $use_item_mode = $1; }
+		if ( $_ =~ /^fly=(NONE|CT|ELYTRA|BOTH)\h*/ ) { $fly = $1; }
+		if ( $_ =~ /^jumps=(\d+)\h*/ ) { $jumps = $1; }
+		if ( $_ =~ /^vision=(NORMAL|NIGHT_VISION|BLIND|REDUCED|VAVE_VISION)\h*/ ) { $vision = $1; }
+		if ( $_ =~ /^climb=(true|false)\h*/ ) { $climb = $1; }
+		if ( $_ =~ /^cameraZOffset=(\d+\.\d+)\h*/ ) { $z_offset = $1; }
+		if ( $_ =~ /^ticksToFreeze=(\d+)\h*/ ) { $freezing_ticks = $1; }
+		if ( $_ =~ /^breath=(NORMAL|WATER|ANY|NONE)\h*/ ) { $breathing_mode = $1; }
+		if ( $_ =~ /^powerSnowWalkable=(true|false)\h*/ ){ $powder_snow_walkable = $1; }
+		if ( $_ =~ /^transfurColor=(0x[0-9a-fA-F]{,6})\h*/ ) { $transfur_color = $1; }
+		if ( $_ =~ /^abilityColor_1=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_back = $1; }
+		if ( $_ =~ /^abilityColor_2=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_front = $1; }
+		if ( $_ =~ /^latexType=(NONE|WHITE_LATEX|DARK_LATEX)/ ) { $latex_type = $1; }
+		if ( $_ =~ /^spawn_placement=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA|null)/ ) { $spawn_placement = $1; }
+		if ( $_ =~ /^spawn_heightmap=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING_NO_LEAVES|MOTION_BLOCKING|null)/ ) { $spawn_heightmap = $1; }
+		if ( $_ =~ /^gender=(MALE|FEMALE)/ ) { $gender = $1; next; }
+		if ( $_ =~ /^builder=(.+)/ ) { $builder = $1; }
 
 		next;
 	} #}}}
 
+	as_array:
 	if ( $mode eq 'ARRAY' ) { # {{{
 
 		if ( $_ =~ /^]\h*/ ) { #{{{
@@ -132,45 +133,40 @@ $mode ='ARRAY';
 		} # }}}
 
 		if ( $array eq '' ) { # if we drop from normal mode, get option {{{
-			$_ =~ /([A-Z]+)=\[\h*/;
+			$_ =~ /([a-zA-Z0-9_]+)=\[\h*/;
 			$array = $1;
 			next;
 		} #}}}
 		
-		if ( $array eq 'TAGS' ) {
+		if ( $array eq 'tags' ) {
 			$_ =~ /((^[a-z][a-z0-9_]*):([a-z][a-z0-9_\/]*))\h*(false|)?\h*$/;
 			open( TAGFILE, '>>', "tmp/data/$2/tags/entity_types/$3.mctag") or die "KSTfG: Couldn't open file: tmp/data/$2/tags/entity_types/$3.mctag : $!";
-			print TAGFILE "additional_transfurs:", $name_lowercase, "\n";
+			print TAGFILE "additional_transfurs:" . $name_lowercase . "\n";
 			close (TAGFILE);
 			next;
 		}
 
-		if ( $array eq 'PRESETS' ) { #{{{
+		if ( $array eq 'presets' ) { #{{{
 			$_ =~ /(.+)\h*/;
 			push( @presets, $1 );
 			next;
 		} #}}}
 
-		if ( $array eq 'ABILITIES' ) { #{{{
+		if ( $array eq 'abilities' ) { #{{{
 			$_ =~ /(.+)\h*/;
 			push( @abilities, $1 );
 			next;
 		} #}}}
 
-		if ( $array eq 'ATTRIBUTES' ) { #{{{
+		if ( $array eq 'attributes' ) { #{{{
 			$_ =~ /(.+)\h*/;
 			push @attributes, $1;
 			next;
 		} #}}}
 
-		if ( $array eq 'SCARES' ) { #{{{
+		if ( $array eq 'scares' ) { #{{{
 			$_ =~ /(.+)\h*/;
 			push( @scares, $1 );
-			next;
-		} #}}}
-		
-		if ( $array eq 'DIMENSIONS' ) { #{{{
-			$_ =~ /(.+)\h*/;
 			next;
 		} #}}}
 	} #}}}

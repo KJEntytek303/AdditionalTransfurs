@@ -83,22 +83,20 @@ public class LatexRedTailCatfish extends net.ltxprogrammer.changed.entity.beast.
 	
 	public static void registerSpawns(SpawnPlacementRegisterEvent event) {
 		
-		if ( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
-		
-		event.register( LATEX_RED_TAIL_CATFISH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexRedTailCatfish::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
+		event.register( LATEX_RED_TAIL_CATFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexRedTailCatfish::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
 	}
 	
-	public LatexRedTailCatfish(EntityType<? extends AbstractAquaticEntity> type, Level level) { super(type, level); }
+	public LatexRedTailCatfish(EntityType<? extends net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity > type, Level level) { super(type, level); }
+
+	public static <T extends ChangedEntity> boolean checkEntitySpawnRules(EntityType<T> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    	return ChangedEntity.checkEntitySpawnRules(entityType, world, reason, pos, random);
+    }
 
 	@Override
 	public TransfurMode getTransfurMode() {
 		return TransfurMode.REPLICATION;
 	}
-
-	public static <T extends ChangedEntity> boolean checkEntitySpawnRules(EntityType<T> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
-       	return AbstractAquaticEntity.checkEntitySpawnRules(entityType, world, reason, pos, random);
-    }
-
+	
 	
 	
 	@Override

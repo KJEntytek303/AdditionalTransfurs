@@ -1,11 +1,11 @@
-BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.CREATURE).clientTrackingRange(10).sized(0.7F, 1.93F)
+builder=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.CREATURE).clientTrackingRange(10).sized(0.7F, 1.93F)
 
-RENDERER_TEMPLATE=organic-renderer.template.java
+rendererTemplate=organic-renderer.template.java
 
-MINING=STRONG
-VISION=NIGHT_VISION
+mining=STRONG
+vision=NIGHT_VISION
 
-ATTRIBUTES=[
+attributes=[
 Attributes.MOVEMENT_SPEED:1.25
 Attributes.MAX_HEALTH:30
 Attributes.ARMOR:8
@@ -14,26 +14,26 @@ ChangedAttributes.FALL_RESISTANCE.get():2.75
 ChangedAttributes.SPRINT_SPEED.get():1.1
 ]
 
-ARMOR_MODEL=ArmorLatexMaleCatModel.MODEL_SET
-EYES_PRESENT=true
-SPAWN_PLACEMENT=ON_GROUND
-SPAWN_HEIGHTMAP=MOTION_BLOCKING_NO_LEAVES
+armorModel=ArmorLatexMaleCatModel.MODEL_SET
+eyes_present=true
+spawn_placement=ON_GROUND
+spawn_heightmap=MOTION_BLOCKING_NO_LEAVES
 
-TAGS=[
+tags=[
 changed_addon:has_claws
 ]
 
-SCARES=[
+scares=[
 net.minecraft.world.entity.monster.Creeper
 ]
 
-ABILITIES=[
+abilities=[
 ChangedAbilities.TOGGLE_NIGHT_VISION
 net.kjentytek303.additional_transfurs.init.InitAbilities.PURRING
 ]
 
-TRANSFUR_COLOR=0x333333
-ABILITY_COLOR_2ND=0x333333
-ABILITY_COLOR_1ST=0xb0a69a
+transfurColor=0x333333
+abilityColor_2=0x333333
+abilityColor_1=0xb0a69a
 
-ACCESSORIES=humanoids.cacsh
+accessories=humanoids.cacsh

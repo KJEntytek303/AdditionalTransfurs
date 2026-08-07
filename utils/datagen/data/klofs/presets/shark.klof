@@ -1,9 +1,9 @@
-BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F)
-EXTEND=net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity
-TEMPLATE=generic-aquatic
-BREATH=ANY
+builder=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F)
+extend=net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity
+breath=ANY
+spawn_placement=IN_WATER
 
-ATTRIBUTES=[
+attributes=[
 Attributes.MOVEMENT_SPEED:0.875
 Attributes.MAX_HEALTH:24.0
 ForgeMod.SWIM_SPEED.get():1.48

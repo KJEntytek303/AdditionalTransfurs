@@ -1,7 +1,7 @@
-BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(1.25F, 2.0F)
-ENTITY_SHAPE=TAUR
+builder=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(1.25F, 2.0F)
+entityShape=TAUR
 
-ATTRIBUTES=[
+attributes=[
 Attributes.MAX_HEALTH:30
 Attributes.MOVEMENT_SPEED:1.2
 ForgeMod.SWIM_SPEED.get():0.9

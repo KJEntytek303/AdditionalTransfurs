@@ -37,86 +37,89 @@ import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 
-import static net.kjentytek303.additional_transfurs.init.InitEntities.PERL_CAPITALIZED_ENTITY_NAME;
+import static net.kjentytek303.additional_transfurs.init.InitEntities.LATEX_PENGUIN;
 
 import org.jetbrains.annotations.Nullable;
 
 
-public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
+public class LatexPenguin extends net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity /*PERL_IMPLEMENTS*/
 {
 
 	/*PERL_ABSTRACT_DELETE_BEGIN*/
-	public static EntityType.Builder<PERL_ENTITY_NAME> getEntityInitBuilder() {
-		return PERL_ENTITY_BUILDER ;
+	public static EntityType.Builder<LatexPenguin> getEntityInitBuilder() {
+		return EntityType.Builder.of(LatexPenguin::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F) ;
 	}
 	
-	public static RegistryObject<EntityType<PERL_ENTITY_NAME>> getEntityInitRObject() {
+	public static RegistryObject<EntityType<LatexPenguin>> getEntityInitRObject() {
 		return InitUtils.getEntityInitRObject(
-			   "PERL_LOWERCASE_ENTITY_NAME",
-			   PERL_COLOR_1ST,
-			   PERL_COLOR_2ND,
-			   PERL_ENTITY_NAME.getEntityInitBuilder(),
+			   "latex_penguin",
+			   0x040404,
+			   0xf3f3f3,
+			   LatexPenguin.getEntityInitBuilder(),
 			   ChangedEntity::createLatexAttributes
 		);
 	}
 	
-	public static TransfurVariant<PERL_ENTITY_NAME> getTFInitBuilder()
+	public static TransfurVariant<LatexPenguin> getTFInitBuilder()
 	{
-		var builder = TransfurVariant.Builder.of(PERL_CAPITALIZED_ENTITY_NAME);
-			   /*PERL_BREATHE_MODE*/
-			   /*PERL_FLIGHT*/
-			   /*PERL_EXTRA_JUMPS*/
-			   /*PERL_CAN_CLIMB*/
-			   /*PERL_DEFAULT_VISION_TYPE*/
-			   /*PERL_MINING_STRENGHT*/
-			   /*PERL_ITEM_USE_MODE*/
-/*PERL_SCARES*/
-			   /*PERL_DEFAULT_TRANSFUR_MODE*/
-/*PERL_ABILITIES*/
-			   /*PERL_CAMERA_Z_OFFSET*/
-			   /*PERL_DEFAULT_TRANSFUR_SOUND*/
+		var builder = TransfurVariant.Builder.of(LATEX_PENGUIN);
+			   builder.breatheMode(TransfurVariant.BreatheMode.ANY);
+			   
+			   
+			   
+			   builder.visionType(VisionType.NORMAL);
+			   
+			   builder.itemUseMode( UseItemMode.NORMAL );
+
+			   builder.transfurMode(TransfurMode.REPLICATION);
+			   builder.addAbility(ChangedAbilities.SWITCH_TRANSFUR_MODE);
+ 			   builder.addAbility(ChangedAbilities.GRAB_ENTITY_ABILITY);
+
+			   
+			   
 			   return builder.build();
 	}
 	/*PERL_ABSTRACT_DELETE_END*/
 	
 	public static void registerSpawns(SpawnPlacementRegisterEvent event) {
 		
-		if ( Heightmap.Types.PERL_SPAWN_HEIGHTMAP != null && SpawnPlacements.Type.PERL_SPAWN_PLACEMENT != null) { return; }
-		
-		event.register( PERL_CAPITALIZED_ENTITY_NAME.get(), SpawnPlacements.Type.PERL_SPAWN_PLACEMENT, Heightmap.Types.PERL_SPAWN_HEIGHTMAP, PERL_ENTITY_NAME::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
+		event.register( LATEX_PENGUIN.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexPenguin::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
 	}
 	
-	public PERL_ENTITY_NAME(EntityType<? extends AbstractAquaticEntity> type, Level level) { super(type, level); }
+	public LatexPenguin(EntityType<? extends net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity > type, Level level) { super(type, level); }
+
+	public static <T extends ChangedEntity> boolean checkEntitySpawnRules(EntityType<T> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    	return ChangedEntity.checkEntitySpawnRules(entityType, world, reason, pos, random);
+    }
 
 	@Override
 	public TransfurMode getTransfurMode() {
-		return TransfurMode.PERL_TRANSFUR_MODE_OVERRIDE;
+		return TransfurMode.REPLICATION;
 	}
-
-	public static <T extends ChangedEntity> boolean checkEntitySpawnRules(EntityType<T> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
-       	return AbstractAquaticEntity.checkEntitySpawnRules(entityType, world, reason, pos, random);
-    }
-
-	/*PERL_LATEX_TYPE_OVERRIDE*/
+	
+	
 	
 	@Override
 	protected void setAttributes (AttributeMap attributes) {
 		super.setAttributes(attributes);
-/*PERL_ATTRIBUTES*/
+		attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(0.875);
+ 		attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue(24.0);
+ 		attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(1.48);
+
 	}
 	
-	/*PERL_TRANSFUR_COLOR*/
+	public Color3 getTransfurColor(TransfurCause cause) { return Color3.fromInt(0x040404); }
 	
-	/*PERL_TICKS_TO_FREEZE*/
+	
 
 	/*PERL_FLYING_SPEED*/
 
-	/*PERL_CLIMBING_OVERRIDE*/
+	
 
-	/*PERL_LEGLESS_OVERRIDE*/
+	
 
-	/*PERL_CENTAUR_OVERRIDE*/
+	
 
-	/*PERL_GENDER*/
+	
 
 }

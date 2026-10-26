@@ -100,6 +100,17 @@ public class LatexPenguinModel extends AdvancedHumanoidModel<LatexPenguin>  {
 
 	}
 
+	@Override
+	public HelperModel getTransfurHelperModel(Limb limb) {
+			switch (limb) {
+				case LEFT_LEG:
+				case RIGHT_LEG:
+					return null;
+				default:
+					return super.getTransfurHelperModel(limb);
+			}
+	}
+
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();

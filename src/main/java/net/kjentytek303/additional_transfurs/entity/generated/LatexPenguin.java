@@ -47,7 +47,7 @@ public class LatexPenguin extends net.ltxprogrammer.changed.entity.beast.Abstrac
 
 	/*PERL_ABSTRACT_DELETE_BEGIN*/
 	public static EntityType.Builder<LatexPenguin> getEntityInitBuilder() {
-		return EntityType.Builder.of(LatexPenguin::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F) ;
+		return EntityType.Builder.of(LatexPenguin::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.8F, 1.83F) ;
 	}
 	
 	public static RegistryObject<EntityType<LatexPenguin>> getEntityInitRObject() {

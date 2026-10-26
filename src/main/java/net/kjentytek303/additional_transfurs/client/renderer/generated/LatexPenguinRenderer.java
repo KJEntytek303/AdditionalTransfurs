@@ -23,7 +23,7 @@ public class LatexPenguinRenderer extends AdvancedHumanoidRenderer<LatexPenguin,
 		
 		
 		
-		
+		this.addLayer(GasMaskLayer.forSnouted(this, context.getModelSet()));
 	}
 	
 	@Override

@@ -17,7 +17,11 @@ my $errored_array= 0 ;
 my $mode = 'NORMAL';
 my $array = '';
 my $current_array = '';
+my $should_add_dep = 0;
+my $should_append = 0;
+my $outfile_name = '';
 
+getlopt(@ARGV);
 
 while ( !eof STDIN ) {
 	push( @IFILE, <STDIN> );
@@ -170,11 +174,11 @@ foreach ( @IFILE ) {
 		if ( $array eq 'tags' ) {
 
 			if ( $_ =~ /((^[a-z][a-z0-9_]*):([a-z][a-z0-9_\/]*))\h*(false|)?\h*$/ ) {
-				if ( -f "tmp/data/$2/tags/entity_types/$3.mctag" ) {
+				if ( -f "data/data/$2/tags/entity_types/$3.mctag" ) {
 					push ( @mapped_file, $_ );
 					next;
 				}
-				print STDERR "Error: tmp/data/$2/tags/entity_types/$3.mctag : No such file, line $i\n";
+				print STDERR "Error: data/data/$2/tags/entity_types/$3.mctag : No such file, line $i\n";
 				next;
 			}
 
@@ -200,6 +204,39 @@ foreach ( @IFILE ) {
 	print STDERR "\tAt:\n\t\n";
 }
 
+if( $mode eq 'ARRAY' ) {
+	print STDERR "Missing closing array bracket at EOF\n";
+	$errored = 1;
+}
+
+if( $errored == 1 ) {
+	die "Errors occured, compilation aborted\n";
+}
+
+if( $should_add_dep == 1) {
+	if( $outfile_name eq '' ) {
+		return;
+	}
+	if( $should_append == 1 ) {
+		open( OFILE, ">>", $outfile_name ) or die "Error opening file $outfile_name, $!\n";
+	} else {
+		open( OFILE, ">", $outfile_name ) or die "Error opening file $outfile_name, $!\n";
+		#Do not print this the 2nd time.
+		print OFILE "$outfile_name: " ;
+	}
+
+	foreach( @dependencies ) {
+		print OFILE "$_ " ;
+	}
+
+	print( OFILE "\n");
+	foreach( @dependencies ) {
+		print OFILE "$_:\n";
+	}
+	close( OFILE );
+	$should_add_dep = 0;
+}
+
 if ( scalar(@dependencies) != 0 ) {
 	foreach (@dependencies) {
 		resolveDependencies($_)
@@ -222,18 +259,39 @@ sub resolveDependencies {
 	if ( $^O eq "MSWin32" ) {
 
 		print STDERR "Warning: VKSTG is running untested PS commands.\n";
-
- 		( @tmp = `.\\vkstg.pl < $_[0]` );
-		system( ".\\vkstg.pl < $_[0] > %homedrive%%homepath%\\trash.tmp" ) && die "Broken template file $_[0]\n";
-		system( "del %homedrive%%homepath%\\trash.tmp" );
-
+ 		@tmp = ( ($outfile_name ne '') ? `.\\vkstg.pl -O $outfile_name < $_[0]` : `.\\vkstg.pl < $_[0]`);
 	}
 	else { #likely linux and mac	
- 		( @tmp = `./vkstg.pl < $_[0]` );
-		if ( scalar(@tmp) == 0 ) {
-			print STDERR "vkstg: Broken or empty template file $_[0]\n";
-			$errored = 1;
+ 		@tmp = ( ($outfile_name ne '') ? `./vkstg.pl -O $outfile_name < $_[0]` : `./vkstg.pl < $_[0]`);
+	}
+
+	if( $? != 0 ) {
+		print STDERR "vkstg: Broken or empty template file $_[0]\n";
+		$errored = 1;
+	}
+
+	splice (@mapped_file, 0, 0, @tmp);
+}
+
+sub getlopt {
+	my $eval = 0;
+	foreach(@_) {
+		if( $eval == 0 ) {
+			if( $_ eq "-o" ) { $eval = 1; next; }
+			if( $_ eq "-O" ) { $eval = 2; next; }
+		}
+
+		if( $eval == 1 || $eval == 2 ) {
+			$outfile_name = $_;
+			$should_add_dep = 1;
+			if( $eval == 2 ) {
+				$should_append = 1;
+			}
+			$eval = 0;
+			next;
 		}
 	}
-	splice (@mapped_file, 0, 0, @tmp);
+	if( $eval != 0 ) {
+		die "Error: argument required";
+	}
 }

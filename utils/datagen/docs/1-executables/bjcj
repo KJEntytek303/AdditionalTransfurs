@@ -6,7 +6,7 @@
 
 .SH SYNOPSIS
 .B ./bjcj.pl
--n 
+-f 
 .I FILE
 -p
 .I ANIMATION_PRESET

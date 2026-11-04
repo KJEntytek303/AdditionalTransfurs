@@ -147,11 +147,11 @@ dependencies {
         jarJar.ranged(it, "[0.4.1,)")
     }
 
-    implementation fg.deobf("net.ltxprogrammer.changed:Changed-m1.20.1-f47.4.0:v0.15.4") {
+    implementation fg.deobf("net.ltxprogrammer.changed:Changed-m1.20.1-f47.4.0:v0.15.7") {
         changing = true
     }
 
-    implementation fg.deobf("net.foxyas.changedaddon:ChangedAddon-m1.20.1-2.8.2b-all:2.8.2b") {
+    implementation fg.deobf("net.foxyas.changedaddon:ChangedAddon-m1.20.1-2.9.2c-all:2.9.2c") {
        changing = true
     }
 
